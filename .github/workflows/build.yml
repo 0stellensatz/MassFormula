@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+  workflow_dispatch:
+
+# A newer run on the same ref supersedes an in-flight one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installs the toolchain named in `lean-toolchain`, fetches the Mathlib
+      # cache, and runs `lake build` — which builds `Development` and everything
+      # it imports, by way of the root module `MassFormula.lean`.
+      - uses: leanprover/lean-action@v1
+
+      # `Challenge.lean` declares the same names in the same namespace as
+      # `Development.lean`, so the two cannot enter one environment and the root
+      # module does not import it. It is built by name instead.
+      - name: Build the comparator
+        run: lake build MassFormula.Challenge
+
+      # Catches the two mistakes a build does not report: a module missing from
+      # the root module's import list, and a Challenge that has drifted from the
+      # Development it is supposed to match declaration-for-declaration.
+      - name: Structural check
+        run: python3 __check__.py
