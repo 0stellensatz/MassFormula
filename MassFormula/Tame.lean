@@ -11,12 +11,12 @@ namespace MassFormula
 
 
 /-!
-# Auxiliary file: `c_eq_zero_iff`—tameness as the vanishing of `c` (p.1)
+# Auxiliary file: `c_eq_zero_iff`—tameness as the vanishing of `c` (p.1031)
 
 The paper states that `c L = 0` exactly when `n` is prime to the residue characteristic `p`, in
-other words when `L` / `K` is tamely ramified ([Serre 1978, p.1][Serre1978]). Both directions come
-from the same coefficient-by-coefficient valuation bookkeeping at an Eisenstein generator, with no
-different ideal and no tame classification:
+other words when `L` / `K` is tamely ramified ([Serre 1978, p.1031][Serre1978]). Both directions
+come from the same coefficient-by-coefficient valuation bookkeeping at an Eisenstein generator, with
+no different ideal and no tame classification:
 
 - *`p ∤ n` implies `c L = 0`*—the residue of `n` is then nonzero, so `n` is a unit of `𝒪[K]`
   (`addVal_natCast_eq_zero`), and the uniform bound of the finiteness half of Remark 1°
@@ -132,7 +132,7 @@ private theorem n_le_d_of_dvd (n : ℕ) (hn : 0 < n) (hdvd : ringChar 𝓀[K] �
 
 /-- `c L = 0` if and only if `n` is prime to the residue characteristic, in other words if and only
 if `L` / `K` is tamely ramified—the statement of `Development.lean`'s `c_eq_zero_iff`, assembled
-from the two bounds above ([Serre 1978, p.1][Serre1978]). -/
+from the two bounds above ([Serre 1978, p.1031][Serre1978]). -/
 theorem c_eq_zero_iff (n : ℕ) (hn : 0 < n) (L : IntermediateField K (SeparableClosure K))
     (hL : L ∈ sigma K n) : c L = 0 ↔ ¬ ringChar 𝓀[K] ∣ n := by
   constructor

@@ -17,12 +17,12 @@ namespace MassFormula
 
 The analytic engine behind equation (3) and Lemma 1 of §3: a simple root of a monic integral
 polynomial lifts to a root of every coefficientwise-close monic integral polynomial, inside any `L`
-in `sigma K n` ([Serre 1978, Lemma 1, pp.2–3][Serre1978]). The concluding theorem `card_aroots_eq`
-states the consequence used downstream: for a separable monic `f` over `𝒪[K]`, there is a threshold
-`T` such that every monic `g` with `g.coeff i - f.coeff i` in the `T`-th power of `𝓂[K]` for all `i`
-has exactly as many roots in `L` as `f` does—the local constancy of the root count, which
-`First.lean` restates on the Eisenstein region and which the measurability, countability, and
-change-of-variables arguments downstream consume.
+in `sigma K n` ([Serre 1978, Lemma 1, pp.1032–1033][Serre1978]). The concluding theorem
+`card_aroots_eq` states the consequence used downstream: for a separable monic `f` over `𝒪[K]`,
+there is a threshold `T` such that every monic `g` with `g.coeff i - f.coeff i` in the `T`-th power
+of `𝓂[K]` for all `i` has exactly as many roots in `L` as `f` does—the local constancy of the root
+count, which `First.lean` restates on the Eisenstein region and which the measurability,
+countability, and change-of-variables arguments downstream consume.
 
 The route is Newton–Hensel over the complete ring `integers L`, organized in four layers:
 
@@ -1040,9 +1040,9 @@ set_option maxHeartbeats 8000000 in
 in `sigma K n` and a monic `f` over `𝒪[K]` separable over `K`, there is a threshold `0 < T` such
 that every monic `g` with all coefficients congruent to those of `f` modulo the `T`-th power of
 `𝓂[K]` has exactly as many roots in `L`, with multiplicity, as `f`
-([Serre 1978, Lemma 1, pp.2–3][Serre1978]). With `Γ` the valuation in `integers L` of the Bézout
-constant of `f` and `T = 2 * Γ + 1`: at any root of either polynomial the Bézout identity pins the
-derivative order at at most `Γ`, so Newton (`exists_isRoot_near`) lifts each root of either
+([Serre 1978, Lemma 1, pp.1032–1033][Serre1978]). With `Γ` the valuation in `integers L` of the
+Bézout constant of `f` and `T = 2 * Γ + 1`: at any root of either polynomial the Bézout identity
+pins the derivative order at at most `Γ`, so Newton (`exists_isRoot_near`) lifts each root of either
 polynomial to a root of the other at distance of order greater than `Γ`, while distinct roots of one
 polynomial stay at distance of order at most `Γ` (`addVal_sub_le_of_isRoot`); the liftings are
 therefore injective both ways, and every root in `L`

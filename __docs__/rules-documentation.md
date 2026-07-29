@@ -67,7 +67,7 @@ Sections that do not apply are omitted rather than left empty. In a source-forma
 	([Serre 1978, Theorem 1][Serre1978]). -/
 	```
 
-	This replaces the older habit of opening the docstring with a bold marker. The content of the statement comes first and the provenance last, so the hover text reads as mathematics rather than as a catalog entry. An unnumbered claim taken from running text cites the page in the same slot—`([Serre 1978, p.5][Serre1978])`.
+	This replaces the older habit of opening the docstring with a bold marker. The content of the statement comes first and the provenance last, so the hover text reads as mathematics rather than as a catalog entry. An unnumbered claim taken from running text cites the page in the same slot—`([Serre 1978, p.1035][Serre1978])`.
 - The file's `## References` section lists every work cited in it, **spelled out in full** and not only by key—these projects are not built by `doc-gen`, so a bare key resolves to nothing for a reader outside this repository:
 
 	```lean

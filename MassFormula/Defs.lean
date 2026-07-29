@@ -3,7 +3,7 @@ import Mathlib
 open ValuativeRel
 
 /-!
-# 1. Statement of the result (p.1): definitions
+# 1. Statement of the result (p.1031): definitions
 
 This file holds the shared definitions of the project—the local-field setting, the residue
 cardinality `q`, the ring of integers `integers L` of a subextension, total ramifiedness, the set
@@ -38,7 +38,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
   [IsNonarchimedeanLocalField K]
 
 /-- `q K` is the cardinality of the finite residue field `𝓀[K]` of `K`, that is `Nat.card 𝓀[K]`
-([Serre 1978, p.1][Serre1978]). -/
+([Serre 1978, p.1031][Serre1978]). -/
 noncomputable def q : ℕ :=
   Nat.card 𝓀[K]
 
@@ -49,8 +49,8 @@ lemma one_lt_q : 1 < q K :=
 variable {K}
 
 /-- The ring of integers of a subextension `L` of `SeparableClosure K` / `K`: the integral closure
-of `𝒪[K]` in `L` ([Serre 1978, §3, p.2][Serre1978]). (Introduced by the paper only in Section 3, but
-needed already here to say what *totally ramified*
+of `𝒪[K]` in `L` ([Serre 1978, §3, p.1032][Serre1978]). (Introduced by the paper only in Section 3,
+but needed already here to say what *totally ramified*
 means.) -/
 noncomputable def integers (L : IntermediateField K (SeparableClosure K)) :
     Subalgebra ↥𝒪[K] ↥L :=
@@ -70,15 +70,15 @@ noncomputable def ramificationIdx (L : IntermediateField K (SeparableClosure K))
   Ideal.ramificationIdx (algebraMap 𝒪[K] (integers L)) 𝓂[K] (maximalIdealAbove L)
 
 /-- `L` / `K` is *totally ramified* when its ramification index equals its degree
-`Module.finrank K ↥L` ([Serre 1978, p.1][Serre1978]). -/
+`Module.finrank K ↥L` ([Serre 1978, p.1031][Serre1978]). -/
 def IsTotallyRamified (L : IntermediateField K (SeparableClosure K)) : Prop :=
   ramificationIdx L = Module.finrank K ↥L
 
 variable (K)
 
 /-- The set of subextensions `L` of `SeparableClosure K` that are totally ramified over `K` and
-satisfy `Module.finrank K ↥L = n` ([Serre 1978, p.1][Serre1978]). For `n = 0` the set is junk (the
-paper takes `1 ≤ n`), which is why every statement of the
+satisfy `Module.finrank K ↥L = n` ([Serre 1978, p.1031][Serre1978]). For `n = 0` the set is junk
+(the paper takes `1 ≤ n`), which is why every statement of the
 comparator carries `0 < n`. -/
 def sigma (n : ℕ) : Set (IntermediateField K (SeparableClosure K)) :=
   {L | Module.finrank K ↥L = n ∧ IsTotallyRamified L}
@@ -102,25 +102,25 @@ noncomputable def discIdeal (L : IntermediateField K (SeparableClosure K)) : Ide
     (∀ i, IsIntegral 𝒪[K] (b i)) ∧ algebraMap 𝒪[K] K x = Algebra.discr K ⇑b}
 
 /-- The valuation of the discriminant of `L` over `K`: the multiplicity of the maximal ideal `𝓂[K]`
-in `discIdeal L`, in the monoid of ideals of `𝒪[K]` ([Serre 1978, p.1][Serre1978]). -/
+in `discIdeal L`, in the monoid of ideals of `𝒪[K]` ([Serre 1978, p.1031][Serre1978]). -/
 noncomputable def d (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   multiplicity 𝓂[K] (discIdeal L)
 
 /-- `c L` is `d L - n + 1`, where `n` is the degree `Module.finrank K ↥L`, written in the
-truncation-safe form `d L + 1 - n` ([Serre 1978, p.1][Serre1978]). The bound `n - 1 ≤ d L` making
+truncation-safe form `d L + 1 - n` ([Serre 1978, p.1031][Serre1978]). The bound `n - 1 ≤ d L` making
 the truncated subtraction faithful is the paper's own claim that
 `c L` is a nonnegative integer, the goal `sub_one_le_d` of the comparator. -/
 noncomputable def c (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   d L + 1 - Module.finrank K ↥L
 
-/-- The number of `K`-automorphisms of `L` ([Serre 1978, Remark 3°, p.1][Serre1978]). -/
+/-- The number of `K`-automorphisms of `L` ([Serre 1978, Remark 3°, p.1031][Serre1978]). -/
 noncomputable def w (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   Nat.card (↥L ≃ₐ[K] ↥L)
 
 /-- The paper's set of representatives, as a predicate rather than a quotient: `R` is a *set of
 representatives of the isomorphism classes of the elements of* `sigma K n`—it consists of elements
 of `sigma K n`, and every element of `sigma K n` is `K`-isomorphic to exactly one member
-of `R` ([Serre 1978, Remark 3°, p.1][Serre1978]). -/
+of `R` ([Serre 1978, Remark 3°, p.1031][Serre1978]). -/
 def IsRepresentativeSet (n : ℕ) (R : Set (IntermediateField K (SeparableClosure K))) : Prop :=
   R ⊆ sigma K n ∧ ∀ L ∈ sigma K n, ∃! M, M ∈ R ∧ Nonempty (↥L ≃ₐ[K] ↥M)
 

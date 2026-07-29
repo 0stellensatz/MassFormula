@@ -12,7 +12,7 @@ namespace MassFormula
 
 Every `L` in `sigma K n` is isomorphic to `n` / `w L` elements of `sigma K n`—in the multiplied form
 of the comparator, the isomorphism class of `L` inside `sigma K n` has exactly `n` / `w L` members
-([Serre 1978, Remark 3°, p.1][Serre1978]). The count is the classical embedding argument:
+([Serre 1978, Remark 3°, p.1031][Serre1978]). The count is the classical embedding argument:
 
 - `L` / `K` is separable of degree `n` and `SeparableClosure K` is separably closed, so `L` has
   exactly `n` embeddings into `SeparableClosure K` (`natCard_algHom`, via
@@ -114,10 +114,10 @@ private theorem natCard_algHom (n : ℕ) (hn : 0 < n)
 
 /-- The number of members of `sigma K n` that are `K`-isomorphic to `L`, times `w L`, is `n`—the
 statement of `Development.lean`'s `ncard_isomorphic_mul_w`
-([Serre 1978, Remark 3°, p.1][Serre1978]). The bijection behind the count sends a member `M` of the
-class and a `K`-automorphism `g` of `L` to the embedding of `L` into `SeparableClosure K` composing
-`g`, a chosen isomorphism `e M` onto `M`, and the inclusion of `M`; the embeddings number `n`
-(`natCard_algHom`), and their images all lie in
+([Serre 1978, Remark 3°, p.1031][Serre1978]). The bijection behind the count sends a member `M` of
+the class and a `K`-automorphism `g` of `L` to the embedding of `L` into `SeparableClosure K`
+composing `g`, a chosen isomorphism `e M` onto `M`, and the inclusion of `M`; the embeddings number
+`n` (`natCard_algHom`), and their images all lie in
 the class (`fieldRange_mem_sigma`). -/
 theorem ncard_isomorphic_mul_w (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) :

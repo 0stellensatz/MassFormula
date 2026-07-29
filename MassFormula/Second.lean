@@ -9,11 +9,11 @@ open scoped ENNReal
 namespace MassFormula
 
 /-!
-# Auxiliary file: `tsum_one_div_w_mul_q_pow_c`—**Theorem 2** (p.1)
+# Auxiliary file: `tsum_one_div_w_mul_q_pow_c`—**Theorem 2** (p.1031)
 
 The mass formula proper: for any set `R` of representatives of the isomorphism classes of the
 elements of `sigma K n`, the sum of `1 / ((w M.1 : ℝ≥0∞) * (q K : ℝ≥0∞) ^ c M.1)` over `M` in `R` is
-`1` ([Serre 1978, Theorem 2, p.1][Serre1978]). It is Theorem 1 regrouped along the partition of
+`1` ([Serre 1978, Theorem 2, p.1031][Serre1978]). It is Theorem 1 regrouped along the partition of
 `sigma K n` into isomorphism classes:
 
 - `c` is an invariant of the `K`-isomorphism class (`c_eq_of_algEquiv`): `discIdeal` is defined
@@ -74,8 +74,8 @@ private theorem c_eq_of_algEquiv {L M : IntermediateField K (SeparableClosure K)
 
 /-- The sum of `1 / ((w M.1 : ℝ≥0∞) * (q K : ℝ≥0∞) ^ c M.1)` over any set `R` of representatives of
 the isomorphism classes of the elements of `sigma K n` is `1`—the statement of `Development.lean`'s
-`tsum_one_div_w_mul_q_pow_c` ([Serre 1978, Theorem 2, p.1][Serre1978]). Theorem 1 is regrouped along
-the fibers of the map sending a member of `sigma K n` to its representative: each fiber is the
+`tsum_one_div_w_mul_q_pow_c` ([Serre 1978, Theorem 2, p.1031][Serre1978]). Theorem 1 is regrouped
+along the fibers of the map sending a member of `sigma K n` to its representative: each fiber is the
 isomorphism class of its representative, finite of cardinality `n / w` by Remark 3°
 (`ncard_isomorphic_mul_w`), and `c` is constant on it (`c_eq_of_algEquiv`), so the fiber contributes
 `(n / w) * (1 / q ^ c)`; cancelling `n` from the

@@ -10,8 +10,8 @@ namespace MassFormula
 # Auxiliary file: `sub_one_le_d`—the bound `n - 1 ≤ d (L)`
 
 Footnote 1 of the paper refers to *Corps locaux* for the fact that `c L = d L - n + 1` is a
-nonnegative integer ([Serre 1978, p.1, footnote 1][Serre1978]); in the `ℕ`-model of the comparator
-this is the bound `n - 1 ≤ d L` for `L` in `sigma K n`.
+nonnegative integer ([Serre 1978, p.1031, footnote 1][Serre1978]); in the `ℕ`-model of the
+comparator this is the bound `n - 1 ≤ d L` for `L` in `sigma K n`.
 
 The classical route: for `L` / `K` totally ramified of degree `n` the residue degree is `1`, so the
 valuation of `K` composed with the norm is the valuation of `L` on the units of `L`, and `d L` is
@@ -170,7 +170,7 @@ of `integers L` lies over `𝓂[K]` (integrality) and contains `maximalIdealAbov
 `Q ^ 2` then satisfies `eisenstein_shape`, so its minimal polynomial is Eisenstein of degree exactly
 `n` and `ξ` generates `L` by dimension count. No fundamental identity summing the `e i * f i` to
 `n`, no localness of `integers L`, and no norm computation is needed—the paper's valuation-based
-argument (p.2, around eq. (5)) is replaced by
+argument (p.1032, around eq. (5)) is replaced by
 divisibility of ideal powers. -/
 theorem exists_eisenstein_generator (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) :

@@ -12,7 +12,7 @@ open scoped ENNReal Pointwise
 namespace MassFormula
 
 /-!
-# Auxiliary file: `tsum_one_div_q_pow_c`—**Theorem 1**, the mass formula (§3, p.2–3)
+# Auxiliary file: `tsum_one_div_q_pow_c`—**Theorem 1**, the mass formula (§3, pp.1032–1033)
 
 This file follows Serre's first proof (§3) in a *root-counting variant*. The paper partitions the
 Eisenstein region into classes indexed by the isomorphism classes of representatives, proves Theorem
@@ -24,7 +24,7 @@ separable (equation (3)) with each of its `n` roots generating exactly one membe
 the counts sum to `n` a.e., and integrating gives Theorem 1 directly—no quotient by isomorphism, no
 `w L`. This is the paper's computation reassembled, and is the more direct route to the sum indexed
 by `sigma K n`; the project charter allows the deviation, and Theorem 2 remains recoverable from the
-same core ([Serre 1978, §3, pp.2–3][Serre1978]).
+same core ([Serre 1978, §3, pp.1032–1033][Serre1978]).
 
 Modeling decisions, local to this file:
 
@@ -44,7 +44,7 @@ Modeling decisions, local to this file:
   open unit ball, and the constant term has the largest valuation below `1`—that of a uniformizer.
 - `rootCount L a` counts the roots of `toPoly a` in `L` *with multiplicity* (`Multiset.card` of
   `aroots`); on the full-measure separable locus all multiplicities are `1`, so the count agrees
-  with the paper's fiber count of the parametrization ([Serre 1978, Lemma 1, p.3][Serre1978]).
+  with the paper's fiber count of the parametrization ([Serre 1978, Lemma 1, p.1033][Serre1978]).
 
 The file contains the volume of the Eisenstein region (`muCoeff_eisensteinSet`, with its
 coset-counting helpers), the Eisenstein irreducibility and separability facts, the a.e. reduction of
@@ -72,14 +72,14 @@ variable {K : Type*} [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
 
 /-- The monic polynomial of degree `n` encoded by a coefficient vector `a : Fin n → K`, with `a i`
 the coefficient of `X ^ i`—the paper's identification of monic polynomials of degree `n` with
-points of the coefficient space ([Serre 1978, p.2][Serre1978]). -/
+points of the coefficient space ([Serre 1978, p.1032][Serre1978]). -/
 noncomputable def toPoly {n : ℕ} (a : Fin n → K) : Polynomial K :=
   Polynomial.X ^ n + ∑ i : Fin n, Polynomial.C (a i) * Polynomial.X ^ (i : ℕ)
 
 /-- The counting function implicit in Lemma 1: the number of roots of `toPoly a` lying in the
 subextension `L`, with multiplicity. On the separable locus this is the fiber count of the
 parametrization over `f`, that is the number
-of uniformizers of `L` with minimal polynomial `f` ([Serre 1978, Lemma 1, p.3][Serre1978]). -/
+of uniformizers of `L` with minimal polynomial `f` ([Serre 1978, Lemma 1, p.1033][Serre1978]). -/
 noncomputable def rootCount (L : IntermediateField K (SeparableClosure K)) {n : ℕ}
     (a : Fin n → K) : ℕ :=
   ((toPoly a).aroots ↥L).card
@@ -88,13 +88,13 @@ variable (K)
 
 /-- The Eisenstein region of equation (1), as a set of coefficient vectors: every coefficient lies
 in the open unit ball, and the constant term has the largest valuation below `1`, that of a
-uniformizer ([Serre 1978, eq. (1), p.2][Serre1978]). -/
+uniformizer ([Serre 1978, eq. (1), p.1032][Serre1978]). -/
 def eisensteinSet (n : ℕ) : Set (Fin n → K) :=
   {a | (∀ i, valuation K (a i) < 1) ∧
     ∀ y : K, valuation K y < 1 → valuation K y ≤ valuation K ((toPoly a).coeff 0)}
 
 /-- The integer box in the coefficient space, compact with nonempty interior—the normalizing set
-of the measure below, giving `𝒪[K]` volume `1` coordinatewise ([Serre 1978, p.2][Serre1978]). -/
+of the measure below, giving `𝒪[K]` volume `1` coordinatewise ([Serre 1978, p.1032][Serre1978]). -/
 noncomputable def integerPositiveCompacts (n : ℕ) :
     TopologicalSpace.PositiveCompacts (Fin n → K) where
   carrier := Set.univ.pi fun _ => (𝒪[K] : Set K)
@@ -108,7 +108,7 @@ noncomputable def integerPositiveCompacts (n : ℕ) :
 
 /-- The paper's measure on the coefficient space: the Haar measure of the locally compact additive
 group `Fin n → K`, normalized so that the integer box has volume `1`
-([Serre 1978, p.2][Serre1978]). -/
+([Serre 1978, p.1032][Serre1978]). -/
 noncomputable def muCoeff (n : ℕ) [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)] :
     Measure (Fin n → K) :=
   Measure.addHaarMeasure (integerPositiveCompacts K n)
@@ -181,7 +181,7 @@ The box-volume computations below implement the coset counting behind equation (
 has volume `1` by normalization; it is the disjoint union of `q ^ n` translates of the
 open-unit-ball box, indexed by vectors of residues; and the unit-ball box is in turn the disjoint
 union of `q` translates of the box whose `0`-coordinate is shrunk one valuation level, indexed by
-residues via a uniformizer ([Serre 1978, eq. (2), p.2][Serre1978]).
+residues via a uniformizer ([Serre 1978, eq. (2), p.1032][Serre1978]).
 -/
 
 /-- The open unit ball of `K` is the vanishing locus of the residue map. -/
@@ -485,7 +485,7 @@ private lemma measure_pi_ballTwo (n : ℕ) (hn : 0 < n)
 These are the deterministic facts behind equation (3) and Lemma 1: the region is a difference of
 boxes (hence measurable), every point has an irreducible polynomial by the Eisenstein criterion over
 `𝒪[K]` and Gauss's lemma, and the inseparable points lie on the null hyperplane where the
-`X ^ 1`-coefficient vanishes ([Serre 1978, eq. (3), p.2; Lemma 1, p.3][Serre1978]).
+`X ^ 1`-coefficient vanishes ([Serre 1978, eq. (3), p.1032; Lemma 1, p.1033][Serre1978]).
 -/
 
 /-- The Eisenstein region is the unit-ball box minus the box with the constant coordinate shrunk one
@@ -1013,7 +1013,7 @@ theorem rootCount_eventuallyEq (n : ℕ) (hn : 0 < n)
 It is a difference of two boxes—the box of radius `π` minus the sub-box where the constant term lies
 in `π ^ 2 * 𝒪[K]`—of indices `q ^ n` and `q ^ (n + 1)` in the integer box; translation invariance
 and the coset count give the volumes `1 / q ^ n` and `1 / q ^ (n + 1)`
-([Serre 1978, eq. (2), p.2][Serre1978]). -/
+([Serre 1978, eq. (2), p.1032][Serre1978]). -/
 theorem muCoeff_eisensteinSet (n : ℕ) (hn : 0 < n)
     [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)] :
     muCoeff K n (eisensteinSet K n) = (q K : ℝ≥0∞)⁻¹ ^ n * (1 - (q K : ℝ≥0∞)⁻¹) := by
@@ -1074,7 +1074,7 @@ lemma, or continuity of the roots—hence a.e. measurable on the Eisenstein regi
 constancy is `rootCount_eventuallyEq`; it makes the root count continuous on the separable part of
 the region, and for `2 ≤ n` the inseparable part sits on the null hyperplane `a 1 = 0`, so
 restricting the measure there changes nothing
-([Serre 1978, eq. (3), p.2][Serre1978]). -/
+([Serre 1978, eq. (3), p.1032][Serre1978]). -/
 theorem aemeasurable_rootCount (n : ℕ) (hn : 0 < n)
     [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)]
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) :
@@ -1968,7 +1968,7 @@ end BoxMeasure
 
 /-- Almost every point of the Eisenstein region is separable—region-membership and separability
 bundled, extracted from the null-hyperplane argument of `tsum_rootCount`
-([Serre 1978, eq. (3), p.2][Serre1978]). -/
+([Serre 1978, eq. (3), p.1032][Serre1978]). -/
 private lemma ae_separable (n : ℕ) (hn : 0 < n)
     [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)] :
     ∀ᵐ a ∂((muCoeff K n).restrict (eisensteinSet K n)),
@@ -2015,7 +2015,7 @@ class bijectively, every root of an Eisenstein polynomial being a uniformizer
 of uniformizers, of volume `(1 / q) * (1 - 1 / q)` (equation (5),
 `measure_image_coord_uniformizers`). So the number of classes cancels between the two sums, and the
 integral is `(1 / q ^ d L) * (1 / q) * (1 - 1 / q)`—Lemmas 1–3 with no Jacobian and no `w L`
-([Serre 1978, §3, pp.2–3][Serre1978]). -/
+([Serre 1978, §3, pp.1032–1033][Serre1978]). -/
 theorem lintegral_rootCount (n : ℕ) (hn : 0 < n)
     [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)]
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) :
@@ -2411,7 +2411,7 @@ polynomial, totally ramified by `isTotallyRamified_adjoin_root`); a member of `s
 root exactly when the root generates it (equal finite degrees); so the root counts are the fiber
 counts of the map sending a root `x` to `K⟮x⟯` on the `n`-element root set, and fiberwise counting
 sums them to `n`
-([Serre 1978, eq. (3), p.2; Lemma 1, p.3][Serre1978]). -/
+([Serre 1978, eq. (3), p.1032; Lemma 1, p.1033][Serre1978]). -/
 theorem tsum_rootCount_of_separable {n : ℕ} (hn : 0 < n) {a : Fin n → K}
     (ha : a ∈ eisensteinSet K n) (hsep : (toPoly a).Separable) :
     ∑' L : sigma K n, (rootCount L.1 a : ℝ≥0∞) = n := by
@@ -2529,7 +2529,7 @@ irreducible by the Eisenstein criterion and separable, has exactly `n` roots in
 `SeparableClosure K`, each a uniformizer generating a totally ramified subextension of degree `n`. A
 root generating `L` lies in no other member of `sigma K n` (two members containing a common
 generator coincide), so the root counts over `sigma K n` sum to `n`
-([Serre 1978, eq. (3), p.2][Serre1978]). -/
+([Serre 1978, eq. (3), p.1032][Serre1978]). -/
 theorem tsum_rootCount (n : ℕ) (hn : 0 < n)
     [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)] :
     ∀ᵐ a ∂((muCoeff K n).restrict (eisensteinSet K n)),
@@ -2682,7 +2682,7 @@ that the root counts sum to `n` into an identity between the sum of the
 `(1 / q ^ (d L + 1)) * (1 - 1 / q)` and `n` times the volume of the region, itself
 `n * (1 / q ^ n) * (1 - 1 / q)`; cancelling `1 - 1 / q` and multiplying through by `q ^ n` gives the
 mass formula, the bound `n - 1 ≤ d L` (`sub_one_le_d`) converting `q ^ n * (1 / q ^ (d L + 1))`
-into `1 / q ^ c L` ([Serre 1978, Theorem 1, p.1][Serre1978]). -/
+into `1 / q ^ c L` ([Serre 1978, Theorem 1, p.1031][Serre1978]). -/
 theorem tsum_one_div_q_pow_c (n : ℕ) (hn : 0 < n) :
     ∑' L : sigma K n, 1 / (q K : ℝ≥0∞) ^ c L.1 = n := by
   letI : MeasurableSpace (Fin n → K) := borel _

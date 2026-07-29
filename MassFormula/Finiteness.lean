@@ -12,10 +12,10 @@ namespace MassFormula
 
 
 /-!
-# Auxiliary file: `sigma_infinite_iff`—the finiteness dichotomy of **Remark 1°** (p.1)
+# Auxiliary file: `sigma_infinite_iff`—the finiteness dichotomy of **Remark 1°** (p.1031)
 
 `sigma K n` is infinite exactly when `K` has equal characteristic `p` and `p` divides `n`
-([Serre 1978, Remark 1°, p.1][Serre1978]). The two directions are separate goals:
+([Serre 1978, Remark 1°, p.1031][Serre1978]). The two directions are separate goals:
 
 - *Infinite implies equal characteristic and `p ∣ n`* (`eq_and_dvd_of_infinite`)—proved, and by
   the mass formula itself rather than by the tame classification and Krasner's finiteness theorem.
@@ -53,7 +53,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
 /-- The characteristic bookkeeping of Remark 1°: if a positive `n` vanishes in `𝒪[K]`, then `K` has
 equal characteristic and the residue characteristic divides `n`—`ringChar K` is then a prime divisor
 of `n`, and it vanishes in the residue field too, so the prime `ringChar 𝓀[K]` divides it
-and the two coincide ([Serre 1978, Remark 1°, p.1][Serre1978]). -/
+and the two coincide ([Serre 1978, Remark 1°, p.1031][Serre1978]). -/
 private theorem eq_and_dvd_of_natCast_eq_zero (n : ℕ) (hn : 0 < n) (h0 : (n : ↥𝒪[K]) = 0) :
     ringChar K = ringChar 𝓀[K] ∧ ringChar 𝓀[K] ∣ n := by
   haveI : IsFractionRing ↥𝒪[K] K :=
@@ -154,7 +154,7 @@ theorem c_le_of_mem_sigma (n t : ℕ) (hn : 0 < n)
 
 /-- The finiteness half of Remark 1°, contrapositively: if `sigma K n` is infinite, then `K` has
 equal characteristic and the residue characteristic divides `n`
-([Serre 1978, Remark 1°, p.1][Serre1978]). -/
+([Serre 1978, Remark 1°, p.1031][Serre1978]). -/
 theorem eq_and_dvd_of_infinite (n : ℕ) (hn : 0 < n) (h : (sigma K n).Infinite) :
     ringChar K = ringChar 𝓀[K] ∧ ringChar 𝓀[K] ∣ n := by
   by_contra hcon
@@ -304,7 +304,7 @@ private theorem exists_mem_sigma_d_eq (n : ℕ) (hn2 : 2 ≤ n) (h0 : (n : ↥�
   exact_mod_cast hd.symm
 
 /-- The infinitude half of Remark 1°: in equal characteristic `p` with `p ∣ n`, the set
-`sigma K n` is infinite ([Serre 1978, Remark 1°, p.1][Serre1978]). -/
+`sigma K n` is infinite ([Serre 1978, Remark 1°, p.1031][Serre1978]). -/
 theorem infinite_of_eq_of_dvd (n : ℕ) (hn : 0 < n) (hchar : ringChar K = ringChar 𝓀[K])
     (hdvd : ringChar 𝓀[K] ∣ n) : (sigma K n).Infinite := by
   -- the residue characteristic is prime, so `n ≥ 2`, and `n` vanishes in `𝒪[K]`
@@ -330,7 +330,7 @@ theorem infinite_of_eq_of_dvd (n : ℕ) (hn : 0 < n) (hchar : ringChar K = ringC
 
 /-- `sigma K n` is infinite exactly when `K` has equal characteristic `p` and `p` divides `n`—the
 statement of `Development.lean`'s `sigma_infinite_iff`, assembled from the two halves above
-([Serre 1978, Remark 1°, p.1][Serre1978]). -/
+([Serre 1978, Remark 1°, p.1031][Serre1978]). -/
 theorem sigma_infinite_iff (n : ℕ) (hn : 0 < n) :
     (sigma K n).Infinite ↔ ringChar K = ringChar 𝓀[K] ∧ ringChar 𝓀[K] ∣ n :=
   ⟨eq_and_dvd_of_infinite K n hn, fun h => infinite_of_eq_of_dvd K n hn h.1 h.2⟩

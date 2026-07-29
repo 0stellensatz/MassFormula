@@ -11,7 +11,7 @@ namespace MassFormula
 
 Lemma 3 of the paper, in the form §3 consumes it: an integral matrix `M` with nonzero determinant
 scales the Haar measure of the coefficient space by `1 / q ^ k`, where `k` is the `π`-adic order of
-`M.det` ([Serre 1978, Lemma 3, p.3][Serre1978]). The lemma is the volume input of the change of
+`M.det` ([Serre 1978, Lemma 3, p.1033][Serre1978]). The lemma is the volume input of the change of
 variables along the parametrization of equations (11)–(13), where `M` is the Jacobian of the
 minimal-polynomial map and `k` is `d L`.
 
@@ -96,7 +96,7 @@ private lemma pow_eq_of_associated {π : 𝒪[K]} (hπ : Irreducible π) {m k : 
 /-- The valuation-level form of the order hypothesis: an integral element whose valuation is the
 `k`-th power of the valuation of `π` is associated to `π ^ k`—the bridge from the shape a valuation
 computation produces to the `Associated` hypothesis of the scaling law below
-([Serre 1978, Lemma 2, p.3][Serre1978]). -/
+([Serre 1978, Lemma 2, p.1033][Serre1978]). -/
 theorem associated_pow_of_valuation {π : 𝒪[K]} (hπ : Irreducible π) {a : 𝒪[K]} {k : ℕ}
     (hval : valuation K (a : K) = valuation K (π : K) ^ k) : Associated a (π ^ k) := by
   have hπ1 : valuation K (π : K) < 1 :=
@@ -203,7 +203,7 @@ theorem card_quotient_range {n : ℕ} (M : Matrix (Fin n) (Fin n) 𝒪[K]) (hdet
 
 variable (K) in
 /-- The integer box of the coefficient space—the normalizing set of the paper's measure, which
-gives `𝒪[K]` volume `1` coordinatewise ([Serre 1978, p.2][Serre1978]). -/
+gives `𝒪[K]` volume `1` coordinatewise ([Serre 1978, p.1032][Serre1978]). -/
 def integerBox (n : ℕ) : Set (Fin n → K) :=
   Set.univ.pi fun _ => (𝒪[K] : Set K)
 
@@ -419,7 +419,7 @@ private lemma det_diagonal_pow {n : ℕ} (π : 𝒪[K]) (e : Fin n → ℕ) :
 
 /-- The volume of an image lattice: for a measure normalized on the integer box—the paper's
 normalization giving `𝒪[K]` volume `1`, coordinatewise—the lattice of a matrix whose determinant
-has `π`-adic order `k` has volume `1 / q ^ k` ([Serre 1978, p.2][Serre1978]). -/
+has `π`-adic order `k` has volume `1 / q ^ k` ([Serre 1978, p.1032][Serre1978]). -/
 theorem measure_imageLattice_eq_inv_pow {n : ℕ} [MeasurableSpace (Fin n → K)]
     [BorelSpace (Fin n → K)] (μ : Measure (Fin n → K)) [μ.IsAddLeftInvariant]
     (hnorm : μ (integerBox K n) = 1) (M : Matrix (Fin n) (Fin n) 𝒪[K]) (hdet : M.det ≠ 0)

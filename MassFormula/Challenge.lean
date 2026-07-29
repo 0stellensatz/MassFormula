@@ -11,9 +11,8 @@ surrounding prose claims and remarks ([Serre 1978][Serre1978]).
 This is the project's frozen specification: it declares one target per claim of the source, each
 proved by `sorry`, over its own clones of the definitions they mention. It imports Mathlib and
 nothing else, so the file is self-contained and free of any proof of what it asks for—the benchmark
-the project offers (`__docs__/rules-comparator.md`).
-The same declarations, discharged, are in `Development.lean`; the proofs themselves live in the
-auxiliary files of the project.
+the project offers (`__docs__/rules-comparator.md`). The same declarations, discharged, are in
+`Development.lean`; the proofs themselves live in the auxiliary files of the project.
 
 ## Main statements
 
@@ -56,14 +55,8 @@ Modeling decisions, shared by `Defs.lean` and every auxiliary file of the projec
   every `R` satisfying `IsRepresentativeSet n R`—the paper's "set of representatives of the
   isomorphism classes" verbatim—which avoids `Quotient.lift` well-definedness obligations for `c`
   and `w`.
-- The aside that `q K ^ c L` is the norm of the wild component of the discriminant is interpretive
-  prose and gets no formal statement; Remark 2° (Krasner's determination of the number of `L` in
-  `sigma K n` with given `c L`) is a historical pointer and gets none either.
 
 ## References
-
-Page references `p.N` follow the pagination of the working English translation
-`blurbs/trans/Serre1978.en.tex` (repo-root-relative); the original journal page is `1030 + N`.
 
 * [Serre1978] J-P. Serre, *Une «formule de masse» pour les extensions totalement ramifiées de
   degré donné d'un corps local*, C. R. Acad. Sci. Paris **286** (1978), Série A, 1031–1036.
@@ -96,15 +89,15 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
   [IsNonarchimedeanLocalField K]
 
 /-- `q K` is the cardinality of the finite residue field `𝓀[K]` of `K`, that is `Nat.card 𝓀[K]`
-([Serre 1978, p.1][Serre1978]). -/
+([Serre 1978, p.1031][Serre1978]). -/
 noncomputable def q : ℕ :=
   Nat.card 𝓀[K]
 
 variable {K}
 
 /-- The ring of integers of a subextension `L` of `SeparableClosure K` / `K`: the integral closure
-of `𝒪[K]` in `L` ([Serre 1978, §3, p.2][Serre1978]). (Introduced by the paper only in Section 3, but
-needed already here to say what *totally ramified*
+of `𝒪[K]` in `L` ([Serre 1978, §3, p.1032][Serre1978]). (Introduced by the paper only in Section 3,
+but needed already here to say what *totally ramified*
 means.) -/
 noncomputable def integers (L : IntermediateField K (SeparableClosure K)) :
     Subalgebra ↥𝒪[K] ↥L :=
@@ -124,15 +117,15 @@ noncomputable def ramificationIdx (L : IntermediateField K (SeparableClosure K))
   Ideal.ramificationIdx (algebraMap 𝒪[K] (integers L)) 𝓂[K] (maximalIdealAbove L)
 
 /-- `L` / `K` is *totally ramified* when its ramification index equals its degree
-`Module.finrank K ↥L` ([Serre 1978, p.1][Serre1978]). -/
+`Module.finrank K ↥L` ([Serre 1978, p.1031][Serre1978]). -/
 def IsTotallyRamified (L : IntermediateField K (SeparableClosure K)) : Prop :=
   ramificationIdx L = Module.finrank K ↥L
 
 variable (K)
 
 /-- The set of subextensions `L` of `SeparableClosure K` that are totally ramified over `K` and
-satisfy `Module.finrank K ↥L = n` ([Serre 1978, p.1][Serre1978]). For `n = 0` the set is junk (the
-paper takes `1 ≤ n`), which is why every statement of the
+satisfy `Module.finrank K ↥L = n` ([Serre 1978, p.1031][Serre1978]). For `n = 0` the set is junk
+(the paper takes `1 ≤ n`), which is why every statement of the
 comparator carries `0 < n`. -/
 def sigma (n : ℕ) : Set (IntermediateField K (SeparableClosure K)) :=
   {L | Module.finrank K ↥L = n ∧ IsTotallyRamified L}
@@ -152,25 +145,25 @@ noncomputable def discIdeal (L : IntermediateField K (SeparableClosure K)) : Ide
     (∀ i, IsIntegral 𝒪[K] (b i)) ∧ algebraMap 𝒪[K] K x = Algebra.discr K ⇑b}
 
 /-- The valuation of the discriminant of `L` over `K`: the multiplicity of the maximal ideal `𝓂[K]`
-in `discIdeal L`, in the monoid of ideals of `𝒪[K]` ([Serre 1978, p.1][Serre1978]). -/
+in `discIdeal L`, in the monoid of ideals of `𝒪[K]` ([Serre 1978, p.1031][Serre1978]). -/
 noncomputable def d (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   multiplicity 𝓂[K] (discIdeal L)
 
 /-- `c L` is `d L - n + 1`, where `n` is the degree `Module.finrank K ↥L`, written in the
-truncation-safe form `d L + 1 - n` ([Serre 1978, p.1][Serre1978]). The bound `n - 1 ≤ d L` making
+truncation-safe form `d L + 1 - n` ([Serre 1978, p.1031][Serre1978]). The bound `n - 1 ≤ d L` making
 the truncated subtraction faithful is the paper's own claim that
 `c L` is a nonnegative integer, the goal `sub_one_le_d` of the comparator. -/
 noncomputable def c (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   d L + 1 - Module.finrank K ↥L
 
-/-- The number of `K`-automorphisms of `L` ([Serre 1978, Remark 3°, p.1][Serre1978]). -/
+/-- The number of `K`-automorphisms of `L` ([Serre 1978, Remark 3°, p.1031][Serre1978]). -/
 noncomputable def w (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   Nat.card (↥L ≃ₐ[K] ↥L)
 
 /-- The paper's set of representatives, as a predicate rather than a quotient: `R` is a *set of
 representatives of the isomorphism classes of the elements of* `sigma K n`—it consists of elements
 of `sigma K n`, and every element of `sigma K n` is `K`-isomorphic to exactly one member
-of `R` ([Serre 1978, Remark 3°, p.1][Serre1978]). -/
+of `R` ([Serre 1978, Remark 3°, p.1031][Serre1978]). -/
 def IsRepresentativeSet (n : ℕ) (R : Set (IntermediateField K (SeparableClosure K))) : Prop :=
   R ⊆ sigma K n ∧ ∀ L ∈ sigma K n, ∃! M, M ∈ R ∧ Nonempty (↥L ≃ₐ[K] ↥M)
 
@@ -181,13 +174,13 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
 
 /-- Let `d L` be the discriminant exponent of a finite extension `L` over `K`, and let `c L` be the
 integer `d L - n + 1`, where `n` is the extension degree of `L` / `K`.  Then `c L` is an integer
-`≥ 0` ([Serre 1978, p.1][Serre1978]). -/
+`≥ 0` ([Serre 1978, p.1031][Serre1978]). -/
 theorem sub_one_le_d (n : ℕ) (hn : 0 < n) (L : IntermediateField K (SeparableClosure K))
     (hL : L ∈ sigma K n) : n - 1 ≤ d L :=
   sorry
 
 /-- `c L = 0` if and only if `n` is prime to `p`, in other words if and only if the extension
-`L` / `K` is tamely ramified ([Serre 1978, p.1][Serre1978]). -/
+`L` / `K` is tamely ramified ([Serre 1978, p.1031][Serre1978]). -/
 theorem c_eq_zero_iff (n : ℕ) (hn : 0 < n) (L : IntermediateField K (SeparableClosure K))
     (hL : L ∈ sigma K n) : c L = 0 ↔ ¬ ringChar 𝓀[K] ∣ n :=
   sorry

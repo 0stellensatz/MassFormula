@@ -56,7 +56,7 @@ python3 __check__.py
 
 This project is extracted from a private notes repository and keeps that repository's conventions, in its own copies under `__docs__/`. A few paths in the documentation refer to that repository and are not part of this one: `blurbs/trans/Serre1978.en.tex` is a working English translation of the paper, `notes/math/theme/Serre1978.tex` the reading note behind the formalization, and `bib/__main__.bib` the bibliography that cite keys such as `[Serre1978]` resolve against. They are left in place because they record where a statement came from, which is worth more than a path that resolves.
 
-The paper itself is under copyright and is not reproduced here; the docstrings cite it by theorem, remark, and page. Page references `p.N` follow the translation's pagination, so the original journal page is `1030 + N`.
+The paper itself is under copyright and is not reproduced here; the docstrings cite it by theorem, remark, and page, the page being that of the journal.
 
 ## License
 
