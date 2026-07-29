@@ -28,9 +28,9 @@ Module names mirror file paths under the package root: `<Project>/<Unit>/Foo.lea
 
 Each unit consists of:
 
-- **`Challenge.lean` — the frozen statement of the unit's targets**, one declaration per numbered claim of the source, each proved by `sorry`. Reading it top to bottom should read like the source unit itself. It is the file that does *not* change when a proof is found.
-- **`Development.lean` — the same declarations, discharged** by delegating to the auxiliary files. This is the unit's public, source-facing face.
-- **`Defs.lean` — the unit's shared definitions:** structures, instances, notation, and `rfl`-level unfolding lemmas. Everything else in the unit imports it, the comparator files included, so it carries two obligations: it imports only Mathlib, and it proves no target (`./rules-comparator.md`).
+- **`Challenge.lean` — the frozen statement of the unit's targets**, one declaration per numbered claim of the source, each proved by `sorry`, over its own clones of the definitions they mention. Reading it top to bottom should read like the source unit itself. It imports only Mathlib, and it is the file that does *not* change when a proof is found.
+- **`Development.lean` — the same declarations, discharged** by delegating to the auxiliary files, each body bridging from the clone to the production original (`./rules-comparator.md`). This is the unit's public, source-facing face.
+- **`Defs.lean` — the unit's production definitions:** structures, instances, notation, and `rfl`-level unfolding lemmas. The auxiliary files import it, and `Development.lean` through them; the comparator files clone what they need instead of reaching for it.
 - **Auxiliary files `<Result>.lean`** — one per goal (or per tight cluster of goals), named in UpperCamelCase after the result proved, with the source tag recorded in the module docstring. This is where the actual multi-line proofs live.
 - **`CompareMathlib.lean`** — optional; see `./rules-comparator.md`.
 
@@ -40,19 +40,21 @@ Lean's import graph is acyclic, and the comparator sits at the top of the unit, 
 
 ```
 Defs.lean  ←  auxiliary files  ←  Development.lean
-    ↖──────────────────────────── Challenge.lean, CompareMathlib.lean
+
+Mathlib  ←  Challenge.lean,  CompareMathlib.lean
 ```
 
-- Auxiliary files import `Defs.lean` (and one another as needed), never `Development.lean`. This is why the shared definitions cannot sit in the comparator files: the auxiliary files must be able to state their lemmas.
+- Auxiliary files import `Defs.lean` (and one another as needed), never `Development.lean`. This is why the production definitions sit in `Defs.lean` rather than only in `Development.lean`: the auxiliary files must be able to state their lemmas.
+- **`Challenge.lean` and `CompareMathlib.lean` sit outside this graph entirely**—they import Mathlib alone and carry their own clones of the definitions their targets mention (`./rules-comparator.md`). `Defs.lean` and the clones are maintained in step by hand.
 - When a definition in `Defs.lean` carries a proof obligation, prove the obligation in place when it is short; if it grows, split it into a prerequisite auxiliary file imported *by* `Defs.lean`. Never leave a `sorry` in `Defs.lean`.
-- A definition whose proof obligation *is* one of the source's numbered claims lives in the comparator files instead (declared after the claim it depends on), so the obligation stays a visible goal; auxiliary files must not reference such a definition.
-- Later units build on earlier ones by importing their `Development`: a unit's `Defs.lean` starts from `import <Project>.<PrevUnit>.Development`. Challenge modules import only earlier Challenge modules, per `./rules-comparator.md`.
+- A definition whose proof obligation *is* one of the source's numbered claims lives in the comparator files only (declared after the claim it depends on), so the obligation stays a visible goal; it has no counterpart in `Defs.lean`, and auxiliary files must not reference it.
+- Later units build on earlier ones by importing their `Development`: a unit's `Defs.lean` starts from `import <Project>.<PrevUnit>.Development`. A later unit's comparator files import nothing at all beyond Mathlib, so they re-clone whatever earlier definitions their own targets mention.
 
 ## Workflow
 
-1. **Skeleton.** Create the unit's `Defs.lean` and `Challenge.lean` from the source; every target in `Challenge.lean` is a `sorry`. Copy `Challenge.lean` to `Development.lean` and adjust only its module docstring and imports. The unit must build at this stage (`warningAsError false` keeps `sorry` a warning, not an error).
-2. **Fill.** Pick a `sorry` in `Development.lean`, create (or extend) the auxiliary file for it, and prove the result there. An auxiliary file may carry `sorry`s while work on it is in progress.
-3. **Discharge.** Once the auxiliary proof is `sorry`-free, add its `import` to `Development.lean` and replace the `sorry` with a one-liner delegating to it—a one-line proof that unfolds to the many lines of the auxiliary file. **The statement never changes at this step, only its body**, and `Challenge.lean` is not touched at all.
+1. **Skeleton.** Write `Challenge.lean` from the source against Mathlib alone: the definitions its targets need, cloned into the comparator namespace, then every target as a `sorry`. Copy the clone block into `Defs.lean` under the project namespace, which is where the production tower will build on it. Copy `Challenge.lean` whole to `Development.lean` and adjust only its module docstring and imports. The unit must build at this stage (`warningAsError false` keeps `sorry` a warning, not an error).
+2. **Fill.** Pick a `sorry` in `Development.lean`, create (or extend) the auxiliary file for it, and prove the result there over the `Defs.lean` definitions. An auxiliary file may carry `sorry`s while work on it is in progress.
+3. **Discharge.** Once the auxiliary proof is `sorry`-free, add its `import` to `Development.lean` and replace the `sorry` with a body that bridges from the clones to the production API and delegates to it—for definitions that are `def`s, a one-liner; for cloned structures, the `obtain` / `⟨...⟩` conversion of `./rules-comparator.md`. **The statement never changes at this step, only its body**, and `Challenge.lean` is not touched at all.
 
 If step 3 cannot be carried out without changing the statement, the statement was wrong: fix it in `Challenge.lean` first, propagate the identical edit to the other comparator files of the unit, and only then adjust the proof.
 
@@ -78,6 +80,8 @@ import <Project>.<Unit>.Defs
 ...
 -/
 ```
+
+In `Challenge.lean` and `CompareMathlib.lean` the block stops at the first line: they take no project-local import at all.
 
 **There is no file-level `set_option` block.** The suppressions this tree used to open every file with—`warningAsError false`, `linter.style.longLine false`, `linter.style.emptyLine false`—are gone, and the set is empty: nothing stands between a file and the Mathlib linter set that `lakefile.toml` enables. The long-line linter in particular is now a check the file is expected to pass, since comments are hard-wrapped at 100 columns (`./rules-comments.md`).
 

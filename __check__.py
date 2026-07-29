@@ -6,7 +6,7 @@ nothing else, so it can be wired into a hook or a CI step per project:
 
     python3 __check__.py        # from the project directory
 
-Three checks, all textual (no build, no Lean required):
+Four checks, all textual (no build, no Lean required):
 
 1.  Root imports --- the root module `<Project>/<Project>.lean` must directly
     import every module of the project, so that a plain `lake build` cannot
@@ -26,12 +26,20 @@ Three checks, all textual (no build, no Lean required):
     wins on v4.32.1 --- so a `sorry`ed Challenge target can supersede a proved
     Development one and everything downstream of it becomes vacuous.
 
-3.  Comparator --- inside one unit directory, `Challenge.lean`,
+3.  Comparator self-containment --- `Challenge.lean` and `CompareMathlib.lean`
+    may import nothing but `Mathlib`.  A Challenge is the project's benchmark,
+    so it has to stand on its own against Mathlib: the definitions its targets
+    are stated over are cloned into it rather than imported from `Defs.lean`,
+    and nothing that proves a target can come into reach.
+
+4.  Comparator --- inside one unit directory, `Challenge.lean`,
     `Development.lean` and `CompareMathlib.lean` must expose the same
     declarations, of the same kind, with the same attributes and signature, in
     the same order.  Docstrings are compared between Challenge and Development
     only (a CompareMathlib docstring is expected to name the Mathlib lemmas it
-    uses).
+    uses).  Declaration *bodies* are not compared, so a cloned definition that
+    drifts between two of the files is not caught here --- copying the clone
+    block between them verbatim is what prevents that.
 
 A project that uses no comparator (a set of exercise files, a run of dated logs)
 simply has no `Challenge.lean`, and only the first check applies.  Exit status is
@@ -75,6 +83,10 @@ COMPARATOR_TRIO = ("Challenge.lean", "Development.lean", "CompareMathlib.lean")
 # The two of the trio the root module leaves out: `Development.lean` is the one
 # it carries, and these are built by name.
 ROOT_EXCLUDED_FILES = ("Challenge.lean", "CompareMathlib.lean")
+
+# The two that must stand alone against Mathlib.  `Development.lean` is absent
+# on purpose: importing the production modules is what it is for.
+MATHLIB_ONLY_FILES = ("Challenge.lean", "CompareMathlib.lean")
 
 
 class Decl:
@@ -323,6 +335,31 @@ def check_comparator_isolation(
             )
 
 
+def check_comparator_imports(errors: list[str]) -> None:
+    """`Challenge.lean` and `CompareMathlib.lean` import only Mathlib.
+
+    The Challenge is what the project offers as its benchmark, so it must be
+    readable and trustable against Mathlib alone --- hence the clones of the
+    definitional layer inside it, in place of an import of `Defs.lean`.  The
+    rule is stated over the *text* of the import line, so it catches a
+    project-local import whether or not the module it names exists yet.
+    """
+    lib_root = PROJECT / NAME
+    if not lib_root.is_dir():
+        return
+
+    for name in MATHLIB_ONLY_FILES:
+        for source in sorted(lib_root.rglob(name)):
+            rel = source.relative_to(PROJECT)
+            for imported in read_imports(source):
+                if imported == "Mathlib" or imported.startswith("Mathlib."):
+                    continue
+                errors.append(
+                    f"{rel}: imports {imported}; a comparator file of this kind"
+                    f" may import nothing but Mathlib"
+                )
+
+
 def check_comparator(errors: list[str], warnings: list[str]) -> None:
     lib_root = PROJECT / NAME
     if not lib_root.is_dir():
@@ -386,6 +423,7 @@ def main() -> int:
     modules = project_modules()
     reported_at_root = check_root_imports(errors, modules)
     check_comparator_isolation(errors, modules, reported_at_root)
+    check_comparator_imports(errors)
     check_comparator(errors, warnings)
 
     for warning in warnings:

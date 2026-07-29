@@ -23,7 +23,7 @@ Because the two declare the same names in the same namespace, they cannot enter 
 
 ## Layout
 
-Everything sits in one unit, directly in `MassFormula/`. Besides the comparator pair and the shared definitional layer `Defs.lean`, each auxiliary file carries one result:
+Everything sits in one unit, directly in `MassFormula/`. Besides the comparator pair and the definitional layer `Defs.lean`, each auxiliary file carries one result:
 
 | File | Result |
 | --- | --- |
@@ -39,7 +39,7 @@ Everything sits in one unit, directly in `MassFormula/`. Besides the comparator 
 | `HaarScaling.lean` | the linear Haar scaling law |
 | `UniformizerParam.lean` | the uniformizer parametrization |
 
-`Defs.lean` imports only Mathlib and proves no target, which is what lets `Challenge.lean` share it without the specification depending on any of the work.
+`Defs.lean` is the production copy of the definitional layer, which the auxiliary files build on. `Challenge.lean` imports Mathlib and nothing else and carries its own clones of the definitions its targets mention, so the specification stands on its own and depends on none of the work; `Development.lean` bridges between the two.
 
 ## Building
 
