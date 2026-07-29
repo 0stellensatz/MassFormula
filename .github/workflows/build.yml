@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Installs the toolchain named in `lean-toolchain`, fetches the Mathlib
       # cache, and runs `lake build` — which builds `Development` and everything
