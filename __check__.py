@@ -405,11 +405,14 @@ def compare(
         elif sorted(base_names) == sorted(other_names):
             errors.append(f"{rel}/{other_name}: declarations are in a different order from Challenge.lean")
 
-    if other_name == "Development.lean":
-        by_name = {d.name: d for d in other}
-        for b in base:
-            o = by_name.get(b.name)
-            if o is not None and b.docstring != o.docstring:
+    if other_name == "Development.lean" and len(base) == len(other):
+        # Pair positionally rather than by name.  A declaration name is unique
+        # only within its namespace, and a clone block carries nested ones ---
+        # `Shift.eStar` and `FiniteShift.eStar` both parse as `eStar` --- so a
+        # lookup keyed by the bare name lets the second shadow the first and
+        # reports a difference that is not there.
+        for b, o in zip(base, other):
+            if b.name == o.name and b.docstring != o.docstring:
                 warnings.append(f"{rel}/{other_name}:{o.line}: docstring of `{o.name}` differs from Challenge.lean")
 
 
