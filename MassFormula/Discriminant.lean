@@ -64,8 +64,7 @@ private theorem pow_notMem_pow_succ {A : Type*} [CommRing A] [IsDomain A] [IsDed
 coefficients in the maximal ideal of `R`, and constant coefficient outside its square—the three
 Eisenstein conditions at once. Each part is the same one-liner: were it to fail, the relation
 expressing `ξ ^ deg` as minus the sum of the terms `c j * ξ ^ j` would place some `ξ ^ i` in
-`Q ^ (i + 1)`, against
-`pow_notMem_pow_succ`. -/
+`Q ^ (i + 1)`, against `pow_notMem_pow_succ`. -/
 private theorem eisenstein_shape {R A : Type*} [CommRing R] [IsLocalRing R] [CommRing A]
     [IsDomain A] [IsDedekindDomain A] [Algebra R A]
     {n : ℕ} (hn : 0 < n) {Q : Ideal A} (hQp : Q.IsPrime)
@@ -170,8 +169,7 @@ of `integers L` lies over `𝓂[K]` (integrality) and contains `maximalIdealAbov
 `Q ^ 2` then satisfies `eisenstein_shape`, so its minimal polynomial is Eisenstein of degree exactly
 `n` and `ξ` generates `L` by dimension count. No fundamental identity summing the `e i * f i` to
 `n`, no localness of `integers L`, and no norm computation is needed—the paper's valuation-based
-argument (p.1032, around eq. (5)) is replaced by
-divisibility of ideal powers. -/
+argument (p.1032, around eq. (5)) is replaced by divisibility of ideal powers. -/
 theorem exists_eisenstein_generator (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) :
     ∃ (x : SeparableClosure K) (π : 𝒪[K]), Irreducible π ∧ IsIntegral 𝒪[K] x ∧
@@ -308,8 +306,8 @@ theorem exists_eisenstein_generator (n : ℕ) (hn : 0 < n)
 set_option synthInstance.maxHeartbeats 400000 in
 set_option maxHeartbeats 2000000 in
 /-- The norm of the derivative of `g` at an Eisenstein root has a preimage in the `n - 1`-st
-power of `𝓂[K]`—the derivative lies in the `n - 1`-st power of the ideal `(ξ)` inside the
-integral closure, and the norm of `ξ` is a sign times the constant coefficient, a uniformizer. -/
+power of `𝓂[K]`—the derivative lies in the `n - 1`-st power of the ideal `(ξ)` inside the integral
+closure, and the norm of `ξ` is a sign times the constant coefficient, a uniformizer. -/
 private theorem norm_derivative_core {π : 𝒪[K]} (hπ : Irreducible π) {x : SeparableClosure K}
     (hint : IsIntegral 𝒪[K] x)
     (hei : (minpoly 𝒪[K] x).IsEisensteinAt (Submodule.span 𝒪[K] {π})) :
@@ -449,8 +447,7 @@ integral basis, whose transition matrix from the power basis is integral by mono
 discriminant—while the power basis is itself an integral basis and so contributes its own
 discriminant. The generator is exhibited in the form `norm_derivative_core` produces, the
 power-basis discriminant being plus or minus the norm of the derivative of `g` at `ξ`, which is what
-makes it land in the
-`n - 1`-st power of `𝓂[K]`. -/
+makes it land in the `n - 1`-st power of `𝓂[K]`. -/
 theorem discIdeal_eq_span {π : 𝒪[K]} (hπ : Irreducible π) {x : SeparableClosure K}
     (hint : IsIntegral 𝒪[K] x)
     (hei : (minpoly 𝒪[K] x).IsEisensteinAt (Submodule.span 𝒪[K] {π})) :

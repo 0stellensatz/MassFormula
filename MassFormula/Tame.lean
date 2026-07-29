@@ -20,15 +20,13 @@ no different ideal and no tame classification:
 
 - *`p ∤ n` implies `c L = 0`*—the residue of `n` is then nonzero, so `n` is a unit of `𝒪[K]`
   (`addVal_natCast_eq_zero`), and the uniform bound of the finiteness half of Remark 1°
-  (`c_le_of_mem_sigma`) reads `c L ≤ 0` at `t = 0`, the valuation of `n` being
-  zero.
-- *`p ∣ n` implies `c L ≠ 0`* (`n_le_d_of_dvd`)—every coefficient of the derivative of `g` at
-  `ξ`, the sum of the terms `i * a i * ξ ^ (i - 1)`, is divisible by the uniformizer: the Eisenstein
+  (`c_le_of_mem_sigma`) reads `c L ≤ 0` at `t = 0`, the valuation of `n` being zero.
+- *`p ∣ n` implies `c L ≠ 0`* (`n_le_d_of_dvd`)—every coefficient of the derivative of `g` at `ξ`,
+  the sum of the terms `i * a i * ξ ^ (i - 1)`, is divisible by the uniformizer: the Eisenstein
   coefficients below the top lie in `𝓂[K]` by definition, and the top one is `n` itself, which
   `p ∣ n` puts in `𝓂[K]` (`dvd_natCast_of_dvd`). Every term of the power-basis combination then has
-  valuation at least `n`, so orthogonality (`le_addVal_sum_iff`) gives `n ≤ d L`,
-  `d L` being the valuation of that derivative (`addVal_derivative_eq_d`); hence
-  `1 ≤ c L`, as `c L = d L + 1 - n`.
+  valuation at least `n`, so orthogonality (`le_addVal_sum_iff`) gives `n ≤ d L`, `d L` being the
+  valuation of that derivative (`addVal_derivative_eq_d`); hence `1 ≤ c L`, as `c L = d L + 1 - n`.
 
 Classically this is the characterization of tame ramification by `d = e - 1`
 ([Serre 1979, Chap. III, §6, Prop. 13][Serre1979]).
@@ -71,8 +69,7 @@ uniformizer—the Eisenstein ones below the top by definition, the top one being
 `p ∣ n` puts in `𝓂[K]`—so every term of the sum has valuation at least `n`, and the easy direction
 of orthogonality (`le_addVal_sum_iff`) gives `n ≤ d L`, `d L` being the valuation of that derivative
 (`addVal_derivative_eq_d`). This is the wild half of the classical characterization of tameness by
-`d = e - 1`
-([Serre 1979, Chap. III, §6, Prop. 13][Serre1979]). -/
+`d = e - 1` ([Serre 1979, Chap. III, §6, Prop. 13][Serre1979]). -/
 private theorem n_le_d_of_dvd (n : ℕ) (hn : 0 < n) (hdvd : ringChar 𝓀[K] ∣ n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) : n ≤ d L := by
   obtain ⟨x, π, hπ, hint, hei, hadj, hdeg⟩ := exists_eisenstein_generator K n hn L hL

@@ -23,9 +23,8 @@ elements of `sigma K n`, the sum of `1 / ((w M.1 : ℝ≥0∞) * (q K : ℝ≥0�
   no contact with `integers` or the ramification data.
 - Grouping the terms of Theorem 1 by the representative of the class (`ENNReal.tsum_fiberwise`, over
   `ℝ≥0∞` where no rearrangement needs justifying) makes each class contribute its cardinality times
-  `1 / q ^ c`; the class is finite of cardinality `n / w` by Remark 3°
-  (`ncard_isomorphic_mul_w`), which is also what evaluates the constant inner
-  sum.
+  `1 / q ^ c`; the class is finite of cardinality `n / w` by Remark 3° (`ncard_isomorphic_mul_w`),
+  which is also what evaluates the constant inner sum.
 - The regrouped identity reads `n` = the sum over `R` of `(n / w M) * (1 / q ^ c M)`; cancelling
   `n`—legitimate in `ℝ≥0∞` since `0 < n` and `n ≠ ⊤`—is the theorem.
 
@@ -78,8 +77,7 @@ the isomorphism classes of the elements of `sigma K n` is `1`—the statement of
 along the fibers of the map sending a member of `sigma K n` to its representative: each fiber is the
 isomorphism class of its representative, finite of cardinality `n / w` by Remark 3°
 (`ncard_isomorphic_mul_w`), and `c` is constant on it (`c_eq_of_algEquiv`), so the fiber contributes
-`(n / w) * (1 / q ^ c)`; cancelling `n` from the
-resulting identity is the claim. -/
+`(n / w) * (1 / q ^ c)`; cancelling `n` from the resulting identity is the claim. -/
 theorem tsum_one_div_w_mul_q_pow_c (n : ℕ) (hn : 0 < n)
     (R : Set (IntermediateField K (SeparableClosure K))) (hR : IsRepresentativeSet n R) :
     ∑' M : R, 1 / ((w M.1 : ℝ≥0∞) * (q K : ℝ≥0∞) ^ c M.1) = 1 := by

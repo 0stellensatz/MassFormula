@@ -17,28 +17,26 @@ namespace MassFormula
 `sigma K n` is infinite exactly when `K` has equal characteristic `p` and `p` divides `n`
 ([Serre 1978, Remark 1°, p.1031][Serre1978]). The two directions are separate goals:
 
-- *Infinite implies equal characteristic and `p ∣ n`* (`eq_and_dvd_of_infinite`)—proved, and by
-  the mass formula itself rather than by the tame classification and Krasner's finiteness theorem.
+- *Infinite implies equal characteristic and `p ∣ n`* (`eq_and_dvd_of_infinite`)—proved, and by the
+  mass formula itself rather than by the tame classification and Krasner's finiteness theorem.
   Outside the asserted case `n` survives into `𝒪[K]` (`eq_and_dvd_of_natCast_eq_zero` is the
   characteristic bookkeeping), so at an Eisenstein generator `ξ` of any `L` in `sigma K n`
-  (`exists_eisenstein_generator`) the term `n * ξ ^ (n - 1)` of the derivative of `g` at
-  `ξ` has *finite* valuation `n * v + (n - 1)`, where `v` is the valuation of `n`, and
-  orthogonality of the power basis (`le_addVal_sum_iff`) forbids the other terms
-  from cancelling it: `d L ≤ n * v + n - 1` (`addVal_derivative_eq_d`), a bound
-  uniform in `L`, that is `c L ≤ n * v` (`c_le_of_mem_sigma`).
-  An infinite `sigma K n` would then feed infinitely many equal nonzero terms into the sum of
-  Theorem 1, forcing it to `⊤` (`ENNReal.tsum_const_eq_top_of_ne_zero`), while
+  (`exists_eisenstein_generator`) the term `n * ξ ^ (n - 1)` of the derivative of `g` at `ξ` has
+  *finite* valuation `n * v + (n - 1)`, where `v` is the valuation of `n`, and orthogonality of the
+  power basis (`le_addVal_sum_iff`) forbids the other terms from cancelling it:
+  `d L ≤ n * v + n - 1` (`addVal_derivative_eq_d`), a bound uniform in `L`, that is `c L ≤ n * v`
+  (`c_le_of_mem_sigma`). An infinite `sigma K n` would then feed infinitely many equal nonzero terms
+  into the sum of Theorem 1, forcing it to `⊤` (`ENNReal.tsum_const_eq_top_of_ne_zero`), while
   `tsum_one_div_q_pow_c` evaluates it to `n`.
 - *Equal characteristic and `p ∣ n` implies infinite* (`infinite_of_eq_of_dvd`)—proved by an
   explicit Eisenstein family rather than by the Artin–Schreier layers the classical argument
-  composes.
-  For each `1 ≤ m` the polynomial `X ^ n + π ^ m * X + π` is Eisenstein, so a root generates a
-  member of `sigma K n` (`isTotallyRamified_adjoin`); and because `n` vanishes
-  in `𝒪[K]`—this is where equal characteristic and `p ∣ n` enter—the term `n * X ^ (n - 1)` of the
-  derivative dies, leaving the constant `π ^ m` *exactly*, so that `d L = n * m` for the member
-  `L` it generates (`addVal_derivative_eq_d`; `exists_mem_sigma_d_eq`).
-  The discriminant exponent is an invariant of the subfield, so these members are pairwise distinct
-  and `m` indexes an injection of `ℕ` into `sigma K n`.
+  composes. For each `1 ≤ m` the polynomial `X ^ n + π ^ m * X + π` is Eisenstein, so a root
+  generates a member of `sigma K n` (`isTotallyRamified_adjoin`); and because `n` vanishes in
+  `𝒪[K]`—this is where equal characteristic and `p ∣ n` enter—the term `n * X ^ (n - 1)` of the
+  derivative dies, leaving the constant `π ^ m` *exactly*, so that `d L = n * m` for the member `L`
+  it generates (`addVal_derivative_eq_d`; `exists_mem_sigma_d_eq`). The discriminant exponent is an
+  invariant of the subfield, so these members are pairwise distinct and `m` indexes an injection of
+  `ℕ` into `sigma K n`.
 
 ## References
 
@@ -52,8 +50,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
 
 /-- The characteristic bookkeeping of Remark 1°: if a positive `n` vanishes in `𝒪[K]`, then `K` has
 equal characteristic and the residue characteristic divides `n`—`ringChar K` is then a prime divisor
-of `n`, and it vanishes in the residue field too, so the prime `ringChar 𝓀[K]` divides it
-and the two coincide ([Serre 1978, Remark 1°, p.1031][Serre1978]). -/
+of `n`, and it vanishes in the residue field too, so the prime `ringChar 𝓀[K]` divides it and the
+two coincide ([Serre 1978, Remark 1°, p.1031][Serre1978]). -/
 private theorem eq_and_dvd_of_natCast_eq_zero (n : ℕ) (hn : 0 < n) (h0 : (n : ↥𝒪[K]) = 0) :
     ringChar K = ringChar 𝓀[K] ∧ ringChar 𝓀[K] ∣ n := by
   haveI : IsFractionRing ↥𝒪[K] K :=
@@ -94,8 +92,8 @@ by orthogonality of the power basis (`le_addVal_sum_iff`) no other term can canc
 valuation is at most `n * v + n - 1`—and it *is* `d L` (`addVal_derivative_eq_d`). This is the
 elementary form of the classical bound `d ≤ n - 1 + n * v` on the different of a totally ramified
 extension ([Serre 1979, Chap. III, §6, Prop. 13][Serre1979]), the tame case `v = 0` included, with
-no case split and no different ideal.
-Public rather than private: at `t = 0` it is also the tame half of `c_eq_zero_iff`. -/
+no case split and no different ideal. Public rather than private: at `t = 0` it is also the tame
+half of `c_eq_zero_iff`. -/
 theorem c_le_of_mem_sigma (n t : ℕ) (hn : 0 < n)
     (ht : addVal ↥𝒪[K] (n : ↥𝒪[K]) = (t : ℕ∞)) (L : IntermediateField K (SeparableClosure K))
     (hL : L ∈ sigma K n) : c L ≤ n * t := by
@@ -188,8 +186,7 @@ discriminant exponent `n * m` with `1 ≤ m` is attained on `sigma K n`. The mem
 root of `X ^ n + π ^ m * X + π`—Eisenstein, hence irreducible and totally ramified of degree `n`
 (`isTotallyRamified_adjoin`)—and since `n` is `0` in `𝒪[K]` the term `n * X ^ (n - 1)` dies, leaving
 the derivative equal to the *constant* `π ^ m`, so `addVal_derivative_eq_d` evaluates `d L = n * m`
-with no discriminant
-computation at all. -/
+with no discriminant computation at all. -/
 private theorem exists_mem_sigma_d_eq (n : ℕ) (hn2 : 2 ≤ n) (h0 : (n : ↥𝒪[K]) = 0)
     (m : ℕ) (hm : 0 < m) : ∃ L ∈ sigma K n, d L = n * m := by
   haveI : IsFractionRing ↥𝒪[K] K :=

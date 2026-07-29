@@ -33,10 +33,9 @@ Modeling decisions, local to this file:
   with a subspace of the coefficient space.
 - The paper's measure, the product of the coordinate measures normalized so that `𝒪[K]` has volume
   `1`, is realized in one stroke as the Haar measure of the additive group `Fin n → K` normalized on
-  the positive compact integer box (`muCoeff`).
-  By uniqueness of Haar measure this is the product of the normalized coordinate measures, but the
-  product structure is only ever needed *inside* the volume computations, so neither `Measure.pi`
-  nor any σ-finiteness enters the statements.
+  the positive compact integer box (`muCoeff`). By uniqueness of Haar measure this is the product of
+  the normalized coordinate measures, but the product structure is only ever needed *inside* the
+  volume computations, so neither `Measure.pi` nor any σ-finiteness enters the statements.
 - The Borel structure `[MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)]` is a per-lemma
   hypothesis of the machinery; the concluding theorem introduces it via `borel`, so its statement
   matches the comparator exactly.
@@ -78,8 +77,8 @@ noncomputable def toPoly {n : ℕ} (a : Fin n → K) : Polynomial K :=
 
 /-- The counting function implicit in Lemma 1: the number of roots of `toPoly a` lying in the
 subextension `L`, with multiplicity. On the separable locus this is the fiber count of the
-parametrization over `f`, that is the number
-of uniformizers of `L` with minimal polynomial `f` ([Serre 1978, Lemma 1, p.1033][Serre1978]). -/
+parametrization over `f`, that is the number of uniformizers of `L` with minimal polynomial `f`
+([Serre 1978, Lemma 1, p.1033][Serre1978]). -/
 noncomputable def rootCount (L : IntermediateField K (SeparableClosure K)) {n : ℕ}
     (a : Fin n → K) : ℕ :=
   ((toPoly a).aroots ↥L).card
@@ -911,8 +910,7 @@ in `sigma K n`, all coefficient vectors near `a` have the same number of roots i
 The quantitative content is `card_aroots_eq`—Newton lifting over the complete ring of integers of
 `L`—whose modulus, the `T`-th power of `𝓂[K]`, this statement converts into the neighborhood of `a`
 of coordinatewise radius the `T`-th power of the valuation of `π`. This is the shared analytic input
-of `aemeasurable_rootCount`, `countable_sigma`, and
-`lintegral_rootCount`. -/
+of `aemeasurable_rootCount`, `countable_sigma`, and `lintegral_rootCount`. -/
 theorem rootCount_eventuallyEq (n : ℕ) (hn : 0 < n)
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) {a : Fin n → K}
     (ha : a ∈ eisensteinSet K n) (hsep : (toPoly a).Separable) :
@@ -1073,8 +1071,7 @@ theorem muCoeff_eisensteinSet (n : ℕ) (hn : 0 < n)
 lemma, or continuity of the roots—hence a.e. measurable on the Eisenstein region. The local
 constancy is `rootCount_eventuallyEq`; it makes the root count continuous on the separable part of
 the region, and for `2 ≤ n` the inseparable part sits on the null hyperplane `a 1 = 0`, so
-restricting the measure there changes nothing
-([Serre 1978, eq. (3), p.1032][Serre1978]). -/
+restricting the measure there changes nothing ([Serre 1978, eq. (3), p.1032][Serre1978]). -/
 theorem aemeasurable_rootCount (n : ℕ) (hn : 0 < n)
     [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)]
     (L : IntermediateField K (SeparableClosure K)) (hL : L ∈ sigma K n) :
@@ -1257,8 +1254,7 @@ private lemma toCoeff_mem_imageLattice_iff_addVal {A : Type*} [CommRing A] [IsDo
     addVal_le_iff_dvd]
 
 /-- The chart image of a ball of radius the valuation of `z` is the lattice of the multiplication by
-`z`, at an arbitrary `𝒪[K]`-basis (the generalization of
-`image_coord_eq_imageLattice`). -/
+`z`, at an arbitrary `𝒪[K]`-basis (the generalization of `image_coord_eq_imageLattice`). -/
 private lemma image_toCoeff_equivFun_eq_imageLattice {A : Type*} [CommRing A] [IsDomain A]
     [IsDiscreteValuationRing A] [Algebra 𝒪[K] A] {m : ℕ} (b : Module.Basis (Fin m) 𝒪[K] A)
     (z : A) :
@@ -1364,8 +1360,8 @@ variable {π : 𝒪[K]} {x : SeparableClosure K}
 
 open scoped Classical in
 /-- The chart's basis at `η`: the powers of `η` when `η` is a uniformizer
-(`powersBasisIntegers`), and the monogenic basis `basisOfEisenstein`
-otherwise—junk, so that box families indexed by residue classes are total. -/
+(`powersBasisIntegers`), and the monogenic basis `basisOfEisenstein` otherwise—junk, so that box
+families indexed by residue classes are total. -/
 private noncomputable def basisAt (hπ : Irreducible π) (hint : IsIntegral 𝒪[K] x)
     (hei : (minpoly 𝒪[K] x).IsEisensteinAt (Submodule.span 𝒪[K] {π}))
     [IsDiscreteValuationRing ↥(integers (IntermediateField.adjoin K {x}))]
@@ -2395,8 +2391,7 @@ theorem lintegral_rootCount (n : ℕ) (hn : 0 < n)
 *totally ramified* extension ([Serre 1979, Chap. I, §6, Prop. 17][Serre1979]). The minimal
 polynomial of the root over `𝒪[K]` is identified with the integral Eisenstein model
 (`minpoly_eq_of_root`), and `isTotallyRamified_adjoin` computes `ramificationIdx L = n` through the
-monogenic presentation
-`integers_eq_adjoin`. -/
+monogenic presentation `integers_eq_adjoin`. -/
 theorem isTotallyRamified_adjoin_root {n : ℕ} (hn : 0 < n) {a : Fin n → K}
     (ha : a ∈ eisensteinSet K n) {x : SeparableClosure K}
     (hx : Polynomial.aeval x (toPoly a) = 0) :
@@ -2410,8 +2405,7 @@ in `SeparableClosure K`; each root generates a member of `sigma K n` (of degree 
 polynomial, totally ramified by `isTotallyRamified_adjoin_root`); a member of `sigma K n` contains a
 root exactly when the root generates it (equal finite degrees); so the root counts are the fiber
 counts of the map sending a root `x` to `K⟮x⟯` on the `n`-element root set, and fiberwise counting
-sums them to `n`
-([Serre 1978, eq. (3), p.1032; Lemma 1, p.1033][Serre1978]). -/
+sums them to `n` ([Serre 1978, eq. (3), p.1032; Lemma 1, p.1033][Serre1978]). -/
 theorem tsum_rootCount_of_separable {n : ℕ} (hn : 0 < n) {a : Fin n → K}
     (ha : a ∈ eisensteinSet K n) (hsep : (toPoly a).Separable) :
     ∑' L : sigma K n, (rootCount L.1 a : ℝ≥0∞) = n := by
@@ -2567,8 +2561,8 @@ open subset of the Eisenstein region on which its root count is positive—a nei
 local constancy `rootCount_eventuallyEq`, of the coefficient vector of the minimal polynomial of an
 Eisenstein generator (`exists_eisenstein_generator`); the masses are positive (Haar), while any
 finitely many of them total at most `n` times the volume of the region because the root counts sum
-to `n` a.e. (equation (3)); a family of positive masses with bounded finite subsums
-has countable index. -/
+to `n` a.e. (equation (3)); a family of positive masses with bounded finite subsums has countable
+index. -/
 theorem countable_sigma (n : ℕ) (hn : 0 < n) : (sigma K n).Countable := by
   classical
   letI : MeasurableSpace (Fin n → K) := borel _

@@ -34,9 +34,9 @@ images of the integer box under `M`:
   `integers L` becomes in the coordinates of a power basis, and the only other volume the assembly
   of equation (13) needs.
 - **The ball form.** `measure_ball_eq_pow_mul`: a ball is itself a translate of the lattice of the
-  box of constant radii `π ^ m`, and the image of a ball is a translate of the lattice of the
-  matrix `π ^ m • M`, whose determinant has order `m * n + k`—so the scaling factor `q ^ k`
-  appears as a ratio of two lattice volumes, with no scaling law for general sets needed.
+  box of constant radii `π ^ m`, and the image of a ball is a translate of the lattice of the matrix
+  `π ^ m • M`, whose determinant has order `m * n + k`—so the scaling factor `q ^ k` appears as a
+  ratio of two lattice volumes, with no scaling law for general sets needed.
 
 Modeling decisions, local to this file:
 
@@ -44,9 +44,9 @@ Modeling decisions, local to this file:
   of the determinant, stated through associates so that no `ℤ`-valued valuation or choice of
   normalization enters. `associated_pow_of_valuation` converts a valuation-level hypothesis (the
   form Lemma 2 of the paper produces) into it.
-- The coefficient space, its measure `muCoeff`, and the integer box are those of
-  `First.lean`; the box and the balls are restated here as `integerBox` and `ball` to keep
-  this file independent of that one.
+- The coefficient space, its measure `muCoeff`, and the integer box are those of `First.lean`; the
+  box and the balls are restated here as `integerBox` and `ball` to keep this file independent of
+  that one.
 
 ## References
 
@@ -144,8 +144,8 @@ exactly `q ^ k` elements, where `k` is the `π`-adic order of `M.det`. Mathlib's
 over the principal ideal ring `𝒪[K]` presents the quotient as a product of the residue rings of the
 diagonal coefficients `a i`; their product is associated to `M.det` because the two embeddings of
 the integer box into itself with image the lattice—the one through `M` and the one through the Smith
-bases—differ by an automorphism, and
-`LinearMap.associated_det_comp_equiv` makes their determinants associated. -/
+bases—differ by an automorphism, and `LinearMap.associated_det_comp_equiv` makes their determinants
+associated. -/
 theorem card_quotient_range {n : ℕ} (M : Matrix (Fin n) (Fin n) 𝒪[K]) (hdet : M.det ≠ 0)
     {π : 𝒪[K]} (hπ : Irreducible π) {k : ℕ} (hk : Associated M.det (π ^ k)) :
     Nat.card ((Fin n → 𝒪[K]) ⧸ LinearMap.range (Matrix.mulVecLin M)) = q K ^ k := by
@@ -217,8 +217,7 @@ def ball {n : ℕ} (x : Fin n → K) (π : 𝒪[K]) (m : ℕ) : Set (Fin n → K
 
 /-- The coordinatewise box around the origin whose `i`-th radius is the `e i`-th power of the
 valuation of `π`—the lattice whose `i`-th factor is `π ^ e i` times `𝒪[K]`, which is what a ball of
-`integers L` becomes in the coordinates of a power basis
-(`le_addVal_mul_iff_coords`). -/
+`integers L` becomes in the coordinates of a power basis (`le_addVal_mul_iff_coords`). -/
 def box {n : ℕ} (π : 𝒪[K]) (e : Fin n → ℕ) : Set (Fin n → K) :=
   Set.univ.pi fun i => {z : K | valuation K z ≤ valuation K (π : K) ^ (e i)}
 
@@ -267,8 +266,8 @@ lemma imageLattice_eq_image_range {n : ℕ} (M : Matrix (Fin n) (Fin n) 𝒪[K])
     exact ⟨y, Set.mem_univ y, toCoeff_mulVec M y⟩
 
 /-- Membership in an image lattice, in the integral picture: an integral vector lies in the image of
-the integer box under `M` exactly when it lies in the range of `M` over `𝒪[K]`—the integral
-picture being injective. -/
+the integer box under `M` exactly when it lies in the range of `M` over `𝒪[K]`—the integral picture
+being injective. -/
 lemma toCoeff_mem_imageLattice_iff {n : ℕ} (M : Matrix (Fin n) (Fin n) 𝒪[K])
     (y : Fin n → 𝒪[K]) :
     toCoeff y ∈ imageLattice M ↔ y ∈ LinearMap.range (Matrix.mulVecLin M) := by
@@ -292,8 +291,7 @@ lemma isCompact_imageLattice {n : ℕ} (M : Matrix (Fin n) (Fin n) 𝒪[K]) :
 of its image under `M`, so the box has `q ^ k` times the volume of that image—for *any*
 translation-invariant measure, no normalization needed. The index `q ^ k` is `card_quotient_range`;
 the decomposition is the coset decomposition of the integer box modulo the lattice, transported
-along the integral picture `toCoeff`, and the lattice is
-measurable because it is compact. -/
+along the integral picture `toCoeff`, and the lattice is measurable because it is compact. -/
 theorem measure_integerBox_eq_pow_mul {n : ℕ} [MeasurableSpace (Fin n → K)]
     [BorelSpace (Fin n → K)] (μ : Measure (Fin n → K)) [μ.IsAddLeftInvariant]
     (M : Matrix (Fin n) (Fin n) 𝒪[K]) (hdet : M.det ≠ 0) {π : 𝒪[K]} (hπ : Irreducible π)
