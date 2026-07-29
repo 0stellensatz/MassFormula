@@ -2,7 +2,7 @@
 
 How the prose *inside* a comment is written: line breaking, how mathematics is set, Markdown usage, emphasis. What each file and each declaration must *carry* as documentation—the comment forms and their delimiter layout, the module docstring skeleton, which declarations need a docstring, and how a work is cited—is a separate matter, governed by `./rules-documentation.md`.
 
-**This project is written as personal notes, not aimed at upstreaming**, so the template's closing *When the target is Mathlib* section—the copyright header, cite keys resolving against `docs/references.bib`, a mandatory `## Tags`—is not copied here and none of it is in force. Everything below applies as written. (Restore that section from `templates/lean4/rules-comments.md`, repo-root-relative, if the project ever turns upstream.)
+**This project is written as personal notes, not aimed at upstreaming**, so the template's closing *When the target is Mathlib* section—the copyright header, cite keys resolving against `docs/references.bib`, a mandatory `## Tags`—is not copied here and none of it is in force. Everything below applies as written. (Restore that section from `templates/lean4/LeanTemplate/__docs__/rules-comments.md`, repo-root-relative, if the project ever turns upstream.)
 
 ## Hard wrap at 100 columns
 
