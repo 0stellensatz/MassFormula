@@ -8,8 +8,28 @@ How the prose *inside* a comment is written: line breaking, how mathematics is s
 
 Every line of a comment is hard-wrapped to at most 100 columns, breaking mid-sentence wherever the wrap falls. Comment prose is broken by *width*—neither per sentence nor per paragraph. (This is a rule about Lean comments only; the parent repository's per-paragraph Markdown convention still governs `.md` files.)
 
-- `gfmt -w100` does the mechanical work, but **read its output before keeping it.** It reflows fenced code blocks, inline code spans, and `$ ... $` math as though they were prose, so a displayed proof state or a Lean expression can come back broken. Repair those by hand.
+**A new sentence does not start a new line.** The wrap is the only thing that ends a line: a sentence ending mid-line is followed by the next one on that same line, and a line that stops short of the limit *because* a sentence ended there is the mistake this rule exists to prevent. It is the `.tex` habit—LaTeX in this repository is broken per sentence (`__docs__/rules-latex.md`, repo-root-relative)—leaking into a Lean comment, where it does not apply.
+
+Broken at the sentence, which is wrong:
+
+```
+The goal of this section is to define and explain the notion of a *jump set*, the key object of the
+paper.
+Jump sets are defined in terms of *shifts*.
+```
+
+Broken at the wrap, which is right:
+
+```
+The goal of this section is to define and explain the notion of a *jump set*, the key object of the
+paper. Jump sets are defined in terms of *shifts*.
+```
+
+**Reflowing is re-filling a whole paragraph, not repairing one line.** Joining a short line pulls words up from the line below, which pushes words off its end, and the shift carries to the paragraph's last line—so refill from the edited line onward rather than patching the one line that looked wrong. Sentences are separated by a single space, never two.
+
+- `gfmt -w100` does the mechanical work, but **read its output before keeping it.** It reflows fenced code blocks, inline code spans, and `$ ... $` math as though they were prose, so a displayed proof state or a Lean expression can come back broken. Repair those by hand. Two of its defaults need undoing as well: it fills to a *goal* width of 93% of `-w`, so lines land near 93 columns unless `-g100` is passed alongside `-w100`, and it puts two spaces after a sentence-ending period whenever it joins two lines.
 - **Never break inside a fenced code block, an inline code span, or a formula.** A line that cannot fit within 100 columns without such a break stays over-long: the content is Lean, and rewrapping it changes what it says.
+- **A citation is kept whole**, for the same reason: write `([Atiyah–MacDonald 1969, Prop. 1.1, p.2][AtiyahMacDonald1969])` on one line, moving the whole citation down to the next line when it does not fit, rather than wrapping between the author and the year or between the pinpoint and the key. A line that ends short to keep one intact is not the sentence-break mistake above—it is the same exception a long code span gets.
 - Nothing suppresses the check any more. The file-level `set_option` block is empty (`./rules-formalization-project.md`), so `linter.style.longLine` fires on a line that is genuinely too long, and that warning is the signal to rewrap.
 - A continuation line of a Markdown construct—the second line of a bullet, of a numbered item, or of a `## References` entry—is indented **two spaces**, as Markdown requires for the continuation to belong to the item.
 
