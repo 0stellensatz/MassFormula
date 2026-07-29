@@ -13,6 +13,13 @@ paper-facing statements about these objects are frozen in `Challenge.lean` and d
 `Development.lean`; the proofs themselves live in the auxiliary files of the project root. Only
 `rfl`-level unfolding lemmas and short well-formedness facts are proved here.
 
+This is the **production** copy of the layer (`__docs__/rules-comparator.md`). The comparator files
+do not import it—each carries its own clones, under `MassFormulaChallenge`, of the eleven
+definitions the targets mention. The clones have the same bodies as the originals below and are
+kept so by hand; neither Lean nor `__check__.py` relates them, so an edit to a definition here is
+an edit owed to `Challenge.lean` and `Development.lean` in the same commit. The two lemmas,
+`one_lt_q` and `mem_sigma`, are not cloned: no target mentions them.
+
 ## Implementation notes
 
 The modeling decisions are recorded once, in the header of `Challenge.lean`, and hold for this file

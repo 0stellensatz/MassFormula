@@ -1,5 +1,4 @@
 import Mathlib
-import MassFormula.Defs
 
 /-!
 # Statement of the result
@@ -10,9 +9,9 @@ reformulation over a set of representatives of the isomorphism classes, together
 surrounding prose claims and remarks ([Serre 1978][Serre1978]).
 
 This is the project's frozen specification: it declares one target per claim of the source, each
-proved by `sorry`, over the shared definitional layer of `Defs.lean`—which imports only Mathlib and
-proves none of these targets, so the pair (`Defs.lean`, `Challenge.lean`) is self-contained and
-proof-free.
+proved by `sorry`, over its own clones of the definitions they mention. It imports Mathlib and
+nothing else, so the file is self-contained and free of any proof of what it asks for—the benchmark
+the project offers (`__docs__/rules-comparator.md`).
 The same declarations, discharged, are in `Development.lean`; the proofs themselves live in the
 auxiliary files of the project.
 
@@ -22,8 +21,10 @@ auxiliary files of the project.
 (Theorem 1), `sigma_infinite_iff` and `summable_one_div_q_pow_c` (Remark 1°),
 `ncard_isomorphic_mul_w` (Remark 3°), and `tsum_one_div_w_mul_q_pow_c` (Theorem 2).
 
-The objects they are stated over—`q`, `integers`, `IsTotallyRamified`, `sigma`, `discIdeal`, `d`,
-`c`, `w`, `IsRepresentativeSet`—are defined in `Defs.lean`.
+The objects they are stated over—`q`, `integers`, `maximalIdealAbove`, `ramificationIdx`,
+`IsTotallyRamified`, `sigma`, `discIdeal`, `d`, `c`, `w`, `IsRepresentativeSet`—are cloned into the
+comparator namespace below, from the copies `Defs.lean` keeps under `MassFormula` for the auxiliary
+files to build on.
 
 ## Implementation notes
 
@@ -73,10 +74,107 @@ Page references `p.N` follow the pagination of the working English translation
 local field, totally ramified extension, mass formula, discriminant, Serre
 -/
 
-open ValuativeRel MassFormula
+open ValuativeRel
 open scoped ENNReal
 
 namespace MassFormulaChallenge
+
+section CloneBlock
+
+/-! ## The project's own definitions
+
+Clones, into the comparator namespace, of the definitional layer the targets below are stated
+over. `Defs.lean` carries the same declarations under `MassFormula`, for the auxiliary files to
+build on; every one of them is a `def`, so a clone here is definitionally equal to its original
+and a proof in `Development.lean` delegates across the boundary without conversion.
+
+The bodies must stay identical to `Defs.lean`'s, and neither Lean nor `__check__.py` checks that,
+so copy rather than retype (`__docs__/rules-comparator.md`). The two `rfl`-level lemmas of
+`Defs.lean`, `one_lt_q` and `mem_sigma`, are not cloned: no target mentions them. -/
+
+variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGroup K]
+  [IsNonarchimedeanLocalField K]
+
+/-- `q K` is the cardinality of the finite residue field `𝓀[K]` of `K`, that is `Nat.card 𝓀[K]`
+([Serre 1978, p.1][Serre1978]). -/
+noncomputable def q : ℕ :=
+  Nat.card 𝓀[K]
+
+variable {K}
+
+/-- The ring of integers of a subextension `L` of `SeparableClosure K` / `K`: the integral closure
+of `𝒪[K]` in `L` ([Serre 1978, §3, p.2][Serre1978]). (Introduced by the paper only in Section 3, but
+needed already here to say what *totally ramified*
+means.) -/
+noncomputable def integers (L : IntermediateField K (SeparableClosure K)) :
+    Subalgebra ↥𝒪[K] ↥L :=
+  integralClosure ↥𝒪[K] ↥L
+
+/-- The maximal ideal of `integers L`, modeled instance-freely as the radical of the ideal `𝓂[K]`
+extended along `algebraMap 𝒪[K] (integers L)`. For `L` / `K` finite this is the unique maximal ideal
+of the local ring `integers L`, but the
+definition itself carries no such obligations, and is junk for `L` infinite over `K`. -/
+noncomputable def maximalIdealAbove (L : IntermediateField K (SeparableClosure K)) :
+    Ideal (integers L) :=
+  (Ideal.map (algebraMap 𝒪[K] (integers L)) 𝓂[K]).radical
+
+/-- The ramification index of `L` / `K`: the exponent of `maximalIdealAbove L` in the extension of
+`𝓂[K]` to `integers L`, via Mathlib's junk-tolerant `Ideal.ramificationIdx`. -/
+noncomputable def ramificationIdx (L : IntermediateField K (SeparableClosure K)) : ℕ :=
+  Ideal.ramificationIdx (algebraMap 𝒪[K] (integers L)) 𝓂[K] (maximalIdealAbove L)
+
+/-- `L` / `K` is *totally ramified* when its ramification index equals its degree
+`Module.finrank K ↥L` ([Serre 1978, p.1][Serre1978]). -/
+def IsTotallyRamified (L : IntermediateField K (SeparableClosure K)) : Prop :=
+  ramificationIdx L = Module.finrank K ↥L
+
+variable (K)
+
+/-- The set of subextensions `L` of `SeparableClosure K` that are totally ramified over `K` and
+satisfy `Module.finrank K ↥L = n` ([Serre 1978, p.1][Serre1978]). For `n = 0` the set is junk (the
+paper takes `1 ≤ n`), which is why every statement of the
+comparator carries `0 < n`. -/
+def sigma (n : ℕ) : Set (IntermediateField K (SeparableClosure K)) :=
+  {L | Module.finrank K ↥L = n ∧ IsTotallyRamified L}
+
+variable {K}
+
+/-- The discriminant ideal of a subextension: the ideal of `𝒪[K]` generated by the elements whose
+image in `K` is `Algebra.discr K b` for some `K`-basis `b` of `L` with all entries integral over
+`𝒪[K]` (cf. [Serre 1979, Chap. III, §3][Serre1979]). When `L` / `K` is finite separable this is the
+classical discriminant ideal generated by the discriminants of the `𝒪[K]`-bases of `integers L`: an
+integral `K`-basis spans a sublattice of finite index in `integers L`, and the discriminant of that
+sublattice is the square of the index times the discriminant of `integers L`. The present form needs
+no freeness or Dedekind-domain instances.
+For `L` infinite over `K` no such basis exists and the ideal is `⊥`—junk, as usual. -/
+noncomputable def discIdeal (L : IntermediateField K (SeparableClosure K)) : Ideal ↥𝒪[K] :=
+  Ideal.span {x : ↥𝒪[K] | ∃ b : Module.Basis (Fin (Module.finrank K ↥L)) K ↥L,
+    (∀ i, IsIntegral 𝒪[K] (b i)) ∧ algebraMap 𝒪[K] K x = Algebra.discr K ⇑b}
+
+/-- The valuation of the discriminant of `L` over `K`: the multiplicity of the maximal ideal `𝓂[K]`
+in `discIdeal L`, in the monoid of ideals of `𝒪[K]` ([Serre 1978, p.1][Serre1978]). -/
+noncomputable def d (L : IntermediateField K (SeparableClosure K)) : ℕ :=
+  multiplicity 𝓂[K] (discIdeal L)
+
+/-- `c L` is `d L - n + 1`, where `n` is the degree `Module.finrank K ↥L`, written in the
+truncation-safe form `d L + 1 - n` ([Serre 1978, p.1][Serre1978]). The bound `n - 1 ≤ d L` making
+the truncated subtraction faithful is the paper's own claim that
+`c L` is a nonnegative integer, the goal `sub_one_le_d` of the comparator. -/
+noncomputable def c (L : IntermediateField K (SeparableClosure K)) : ℕ :=
+  d L + 1 - Module.finrank K ↥L
+
+/-- The number of `K`-automorphisms of `L` ([Serre 1978, Remark 3°, p.1][Serre1978]). -/
+noncomputable def w (L : IntermediateField K (SeparableClosure K)) : ℕ :=
+  Nat.card (↥L ≃ₐ[K] ↥L)
+
+/-- The paper's set of representatives, as a predicate rather than a quotient: `R` is a *set of
+representatives of the isomorphism classes of the elements of* `sigma K n`—it consists of elements
+of `sigma K n`, and every element of `sigma K n` is `K`-isomorphic to exactly one member
+of `R` ([Serre 1978, Remark 3°, p.1][Serre1978]). -/
+def IsRepresentativeSet (n : ℕ) (R : Set (IntermediateField K (SeparableClosure K))) : Prop :=
+  R ⊆ sigma K n ∧ ∀ L ∈ sigma K n, ∃! M, M ∈ R ∧ Nonempty (↥L ≃ₐ[K] ↥M)
+
+end CloneBlock
 
 variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGroup K]
   [IsNonarchimedeanLocalField K]
