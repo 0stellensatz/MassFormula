@@ -116,8 +116,14 @@ theorem isAdicComplete_integer : IsAdicComplete 𝓂[K] 𝒪[K] := by
     have hne : ∀ j, (C j).Nonempty := fun j => ⟨(s j : K), by simp [hC]⟩
     have hclosed : ∀ j, IsClosed (C j) := by
       intro j
+      -- `Valued.isClosed_closedBall` states its ball over `Valued.v.restrict`, the valuation
+      -- corestricted to its own value group, so the radius has to be moved across
+      -- `Valuation.restrict_le_iff` first; `Valued.v` is `valuation K` definitionally.
       have h1 : C j = (fun z : K => z - (s j : K)) ⁻¹'
-          {w : K | valuation K w ≤ valuation K ((π : K) ^ j)} := rfl
+          {w : K | Valued.v.restrict w ≤ Valued.v.restrict ((π : K) ^ j)} := by
+        ext z
+        simp only [hC, Set.mem_setOf_eq, Set.mem_preimage, Valuation.restrict_le_iff]
+        exact Iff.rfl
       rw [h1]
       exact (Valued.isClosed_closedBall K _).preimage (continuous_sub_right _)
     have hcompact : IsCompact (C 0) := by

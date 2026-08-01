@@ -114,7 +114,6 @@ theorem associated_pow_of_valuation {π : 𝒪[K]} (hπ : Irreducible π) {a : �
       (Valuation.integer.integers (valuation K))).mp u.isUnit
   have hvm : valuation K (π : K) ^ m = valuation K (π : K) ^ k := by
     have h2 := congrArg (fun z : 𝒪[K] => valuation K (z : K)) hu
-    simp only at h2
     rw [show ((a * (u : 𝒪[K]) : 𝒪[K]) : K) = (a : K) * ((u : 𝒪[K]) : K) from by push_cast; ring,
       map_mul, hvu, mul_one, hval,
       show ((π ^ m : 𝒪[K]) : K) = (π : K) ^ m from by push_cast; ring, map_pow] at h2

@@ -458,7 +458,7 @@ private lemma dvd_of_eval_map_eq_zero (hn : 0 < n) (b : Module.Basis (Fin n) R A
   rw [← Polynomial.modByMonic_eq_zero_iff_dvd hGm]
   set S := P %ₘ G with hS
   -- the remainder vanishes at `ξ`
-  have hdec := Polynomial.modByMonic_add_div P hGm
+  have hdec := Polynomial.modByMonic_add_div P G
   have hSroot : Polynomial.eval ξ (S.map (algebraMap R A)) = 0 := by
     have h1 := congrArg (fun p : Polynomial R =>
       Polynomial.eval ξ (p.map (algebraMap R A))) hdec

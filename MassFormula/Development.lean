@@ -72,9 +72,9 @@ noncomputable def maximalIdealAbove (L : IntermediateField K (SeparableClosure K
   (Ideal.map (algebraMap 𝒪[K] (integers L)) 𝓂[K]).radical
 
 /-- The ramification index of `L` / `K`: the exponent of `maximalIdealAbove L` in the extension of
-`𝓂[K]` to `integers L`, via Mathlib's junk-tolerant `Ideal.ramificationIdx`. -/
+`𝓂[K]` to `integers L`, via Mathlib's junk-tolerant `Ideal.ramificationIdx'`. -/
 noncomputable def ramificationIdx (L : IntermediateField K (SeparableClosure K)) : ℕ :=
-  Ideal.ramificationIdx (algebraMap 𝒪[K] (integers L)) 𝓂[K] (maximalIdealAbove L)
+  Ideal.ramificationIdx' 𝓂[K] (maximalIdealAbove L)
 
 /-- `L` / `K` is *totally ramified* when its ramification index equals its degree
 `Module.finrank K ↥L` ([Serre 1978, p.1031][Serre1978]). -/

@@ -209,8 +209,7 @@ theorem exists_eisenstein_generator (n : ℕ) (hn : 0 < n)
     rw [← hcom]
     exact Ideal.map_comap_le
   -- total ramifiedness: the extension of `𝓂[K]` to `integers L` lies in `Q ^ n`
-  have hram : Ideal.ramificationIdx (algebraMap ↥𝒪[K] ↥(integers L)) 𝓂[K]
-      (maximalIdealAbove L) = n := by
+  have hram : Ideal.ramificationIdx' 𝓂[K] (maximalIdealAbove L) = n := by
     have he : MassFormula.ramificationIdx L = n := by
       rw [← hLn]
       exact hLram
@@ -218,8 +217,7 @@ theorem exists_eisenstein_generator (n : ℕ) (hn : 0 < n)
   have hpow : Ideal.map (algebraMap ↥𝒪[K] ↥(integers L)) 𝓂[K] ≤ Q ^ n := by
     have h1 : Ideal.map (algebraMap ↥𝒪[K] ↥(integers L)) 𝓂[K]
         ≤ maximalIdealAbove L ^ n := by
-      have h2 := Ideal.le_pow_ramificationIdx
-        (f := algebraMap ↥𝒪[K] ↥(integers L)) (p := 𝓂[K]) (P := maximalIdealAbove L)
+      have h2 := Ideal.le_pow_ramificationIdx' (p := 𝓂[K]) (P := maximalIdealAbove L)
       rwa [hram] at h2
     have h3 : maximalIdealAbove L ≤ Q :=
       hQmax.isPrime.radical_le_iff.mpr hmapQ
@@ -531,7 +529,7 @@ theorem discIdeal_eq_span {π : 𝒪[K]} (hπ : Irreducible π) {x : SeparableCl
           simpa using hn
         · have h3 : (P %ₘ g).degree < g.degree := Polynomial.degree_modByMonic_lt P hgmonic
           exact Polynomial.natDegree_lt_natDegree h0 h3
-      · have h4 := congrArg (Polynomial.aeval x') (Polynomial.modByMonic_add_div P hgmonic)
+      · have h4 := congrArg (Polynomial.aeval x') (Polynomial.modByMonic_add_div P g)
         rw [map_add, map_mul, haevg, zero_mul, add_zero] at h4
         rw [h4]
         exact hP

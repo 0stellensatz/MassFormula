@@ -750,10 +750,13 @@ private lemma measure_pi_inter_coord_eq_zero (n : ℕ)
   have hSclosed : IsClosed S := by
     rw [hS]
     refine IsClosed.inter ?_ (isClosed_eq (continuous_apply j) continuous_const)
+    -- the ball has to be phrased over `Valued.v.restrict` to meet `Valued.isClosed_closedBall`
     have hpi : (Set.univ.pi fun _ : Fin n => (𝒪[K] : Set K)) =
-        Set.univ.pi fun _ : Fin n => {x : K | valuation K x ≤ 1} := by
+        Set.univ.pi fun _ : Fin n => {x : K | Valued.v.restrict x ≤ 1} := by
       ext b
-      simp [Set.mem_pi, Valuation.mem_integer_iff]
+      simp only [Set.mem_pi, Set.mem_univ, Set.mem_setOf_eq, SetLike.mem_coe,
+        Valuation.mem_integer_iff, Valuation.restrict_le_one_iff, forall_const]
+      exact Iff.rfl
     rw [hpi]
     exact isClosed_set_pi fun i _ => Valued.isClosed_closedBall K 1
   have key : ∀ m : ℕ, (m : ℝ≥0∞) * muCoeff K n S ≤ 1 := by
@@ -1235,7 +1238,6 @@ private lemma valuation_eq_of_addVal_eq_one {π : 𝒪[K]} (hπ : Irreducible π
     (Valuation.Integers.isUnit_iff_valuation_eq_one
       (Valuation.integer.integers (valuation K))).mp u.isUnit
   have h3 := congrArg (fun w : 𝒪[K] => valuation K (w : K)) hu
-  simp only at h3
   rw [show ((z * (u : 𝒪[K]) : 𝒪[K]) : K) = (z : K) * ((u : 𝒪[K]) : K) from by push_cast; ring,
     map_mul, hvu, mul_one] at h3
   exact h3
@@ -2644,7 +2646,7 @@ theorem countable_sigma (n : ℕ) (hn : 0 < n) : (sigma K n).Countable := by
                 · rw [Set.indicator_of_mem hbO, Pi.one_apply]
                   exact_mod_cast hOge L b hbO
                 · rw [Set.indicator_of_notMem hbO]
-                  exact zero_le _
+                  exact zero_le
             _ ≤ ∑' L : sigma K n, (rootCount L.1 b : ℝ≥0∞) := ENNReal.sum_le_tsum s
             _ = (n : ℝ≥0∞) := hb
       _ = (n : ℝ≥0∞) * muCoeff K n (eisensteinSet K n) := setLIntegral_const _ _
