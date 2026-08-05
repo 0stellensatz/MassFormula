@@ -8,6 +8,8 @@ A Lean 4 formalization of the «mass formula» for the totally ramified extensio
 
 The paper is in French; the faithful English translation `blurbs/trans/Serre1978.en.tex` (repo-root-relative) is the working copy of the source, reproducing the original's theorem/lemma numbering, equation tags `(1)`–`(24)`, and footnotes. The reading note `notes/math/theme/Serre1978.tex` mirrors the translation line by line and records the note-writer's `\sorry` gaps and `\green` fill-ins—consult it for which arguments have already been worked out informally. Page references in docstrings are the journal's own, `p.1031`–`p.1036`. The translation and the note paginate from `1`, so their `% p.N` markers sit at journal page `1030 + N`—an aid for navigating them, never a form a citation may take.
 
+**Citations resolve against** `bib/__main__.bib` in the `knowledge-base` repository this project is developed alongside—or `bib/__main__.ja.bib`, whose keys carry a `ja_` prefix, for a Japanese-language work. Adding an entry there is that repository's `/pdf-to-bib` skill's job. `__docs__/rules-documentation.md` defers to this line for which bibliography a cite key lives in and names none itself, because the rest of it has to hold when this repository is read on its own.
+
 ## Architecture
 
 This is a standalone Lake package. The project follows the shared source-formalization architecture in @./__docs__/rules-formalization-project.md and the comparator discipline in @./__docs__/rules-comparator.md—the import discipline, the skeleton → fill → discharge workflow, the naming and docstring rules, and the build commands. The project-specific parameters are:
@@ -30,4 +32,4 @@ This project carries four rule documents in `__docs__/`—`rules-comments.md`, `
 python3 __check__.py
 ```
 
-They are this project's copies of `templates/lean4/` (repo-root-relative) and are fine-tuned here, not there. The template's closing *When the target is Mathlib* section of `rules-comments.md` is deliberately dropped from the copy: this is a personal formalization, not a Mathlib contribution.
+They are this project's copies of the template repository this project was generated from (https://github.com/0stellensatz/AutoFormalization) and are fine-tuned here, not there. The template's closing *When the target is Mathlib* section of `rules-comments.md` is deliberately dropped from the copy: this is a personal formalization, not a Mathlib contribution.

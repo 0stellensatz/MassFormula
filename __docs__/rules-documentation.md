@@ -2,7 +2,7 @@
 
 What every file and every declaration must *carry* as documentation. (How the prose inside a comment is formatted—line breaking, how mathematics is set, Markdown usage—is a separate matter, governed by `./rules-comments.md`.)
 
-These rules follow the Mathlib documentation guidelines (https://leanprover-community.github.io/contribute/doc.html), with the adaptations this repository forces—chiefly that citations resolve against `bib/__main__.bib` rather than Mathlib's `docs/references.bib`. Projects that follow the Mathlib guidelines here stay upstreamable; projects that do not still get the part that matters most for reading notes, which is *saying where a statement comes from*.
+These rules follow the Mathlib documentation guidelines (https://leanprover-community.github.io/contribute/doc.html), with one adaptation: citations resolve against the project's own bibliography rather than Mathlib's `docs/references.bib`. A project that follows the Mathlib guidelines here stays upstreamable; one that does not still gets the part that matters most for a reading note, which is *saying where a statement comes from*.
 
 ## The four comment forms
 
@@ -50,16 +50,16 @@ Sections that do not apply are omitted rather than left empty. In a source-forma
 - A theorem with a **name of its own** may be bold on first introduction—`**the mean value theorem**`, `**Hensel's lemma**`. A *source item* is not: never open a docstring with a bold marker announcing it (`**Theorem 1.**`, `**Proposition 1.7** (p.5):`). Say what the declaration states, and cite the item at the end—see *Citing other works*.
 - The docstring says what the statement **means**, in the vocabulary of `./rules-comments.md`: Lean in code spans, English where Lean will not carry it, LaTeX math only as a fallback.
 - Refer to Lean declarations in backticks, and prefer the **fully-qualified** name (`Finset.card_pos`, not `card_pos`): the documentation generator turns a fully-qualified name into a link, and the reader can grep it either way.
-- Prefer a `[text](url)` link for an external reference; when a bare URL must appear inside a doc comment, enclose it in angle brackets `<...>` so it stays clickable in the rendered docs. This is a **deliberate override** of the repository-wide rule against angle-bracket autolinks (`__docs__/rules-markdown.md`, repo-root-relative), taken under that rule's own *unless otherwise specified*: a doc comment is rendered by the editor and by `doc-gen`, where an unwrapped URL is not a link at all. Do not "correct" it back.
+- Prefer a `[text](url)` link for an external reference; when a bare URL must appear inside a doc comment, enclose it in angle brackets `<...>` so it stays clickable in the rendered docs. The brackets are deliberate, and stay even where a project's Markdown conventions forbid the autolink form elsewhere: a doc comment is rendered by the editor and by `doc-gen`, where an unwrapped URL is not a link at all. Do not "correct" it back.
 
 ## Citing other works
 
 **Every claim taken from the literature carries its source.** This is the rule that matters most here: a reading-note formalization whose statements do not say where they come from is unusable a month later.
 
-- A reference is cited by the **cite key of the shared bibliography**—`bib/__main__.bib`, or `bib/__main__.ja.bib` for a Japanese-language work—enclosed in square brackets: `[Pagano2022]`, `[Serre1978]`, `[ja_Takagi1971]`. The bracketed-key form is Mathlib's citation syntax, so a file that is later upstreamed only needs its entries moved to `docs/references.bib`.
+- A reference is cited by its **cite key in the bibliography the project cites against**, which the project's `CLAUDE.md` names, enclosed in square brackets: `[Pagano2022]`, `[Serre1978]`. The bracketed-key form is Mathlib's citation syntax, so a file that is later upstreamed only needs its entries moved to `docs/references.bib`.
 - Custom link text goes ahead of the key in its own brackets: `[Corps Locaux][Serre1968]`. A closing `]` inside the link text breaks the syntax, so do not write `[Euclid's *Elements* [Prop. 1]][heath1956a]`.
-- **Never invent a key.** Cite only a key that exists in the bibliography; if the work is not there, add it first (the `/pdf-to-bib` skill mints the entry and routes it to the right database by the language of the work), then cite the key it produced.
-- A pinpoint follows the key inside the brackets, using the repo-wide abbreviations of `__docs__/rules-english.md`: `[Serre1968, Chap. III, §3]`, `[AtiyahMacDonald1969, p.8]`, `[Pagano2022, Prop. 2.3]`.
+- **Never invent a key.** Cite only a key that exists in the bibliography; if the work is not there, add the entry first, then cite the key it produced.
+- A pinpoint follows the key inside the brackets, abbreviated `Chap.`, `§` / `§§`, `p.` / `pp.` (no space before the number), and `Thm.` / `Prop.` / `Cor.` / `Lem.` / `Def.` / `Rem.`: `[Serre1968, Chap. III, §3]`, `[AtiyahMacDonald1969, p.8]`, `[Pagano2022, Prop. 2.3]`.
 - **A declaration transcribing a source item cites it at the end of its docstring, parenthesized**, in the custom-link-text form—author, year, and pinpoint as the text, the key as the target:
 
 	```lean
@@ -68,7 +68,7 @@ Sections that do not apply are omitted rather than left empty. In a source-forma
 	```
 
 	This replaces the older habit of opening the docstring with a bold marker. The content of the statement comes first and the provenance last, so the hover text reads as mathematics rather than as a catalog entry. An unnumbered claim taken from running text cites the page in the same slot—`([Serre 1978, p.1035][Serre1978])`.
-- The file's `## References` section lists every work cited in it, **spelled out in full** and not only by key—these projects are not built by `doc-gen`, so a bare key resolves to nothing for a reader outside this repository:
+- The file's `## References` section lists every work cited in it, **spelled out in full** and not only by key—the project is not built by `doc-gen`, so a bare key resolves to nothing for a reader who does not have the bibliography at hand:
 
 	```lean
 	/-!
@@ -79,8 +79,8 @@ Sections that do not apply are omitted rather than left empty. In a source-forma
 	-/
 	```
 
-- A statement whose *source of truth* is a reading note of this repository rather than the paper itself says so, with the repo-root-relative path: `notes/math/theme/Pagano2022.tex`. The paper is what is cited; the note is what was read.
-- **Mathlib is cited by declaration name**, never by bibliography key: name the lemma in backticks (`Ideal.exists_maximal`). This is what makes a `CompareMathlib.lean` body self-documenting.
+- A statement whose *source of truth* is a reading note taken from the paper, rather than the paper itself, says so and names the note. The paper is what is cited; the note is what was read.
+- **Mathlib is cited by declaration name**, never by bibliography key: name the lemma in backticks (`Ideal.exists_maximal`). A proof that is really Mathlib's says so this way, and becomes self-documenting.
 
 ## What documentation is *not* for
 

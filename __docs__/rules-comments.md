@@ -2,13 +2,13 @@
 
 How the prose *inside* a comment is written: line breaking, how mathematics is set, Markdown usage, emphasis. What each file and each declaration must *carry* as documentation—the comment forms and their delimiter layout, the module docstring skeleton, which declarations need a docstring, and how a work is cited—is a separate matter, governed by `./rules-documentation.md`.
 
-**This project is written as personal notes, not aimed at upstreaming**, so the template's closing *When the target is Mathlib* section—the copyright header, cite keys resolving against `docs/references.bib`, a mandatory `## Tags`—is not copied here and none of it is in force. Everything below applies as written. (Restore that section from `templates/lean4/LeanTemplate/__docs__/rules-comments.md`, repo-root-relative, if the project ever turns upstream.)
+**This project is written as personal notes, not aimed at upstreaming**, so the template's closing *When the target is Mathlib* section—the copyright header, cite keys resolving against `docs/references.bib`, a mandatory `## Tags`—is not copied here and none of it is in force. Everything below applies as written. (Restore that section from the template this project was generated from, https://github.com/0stellensatz/AutoFormalization, if the project ever turns upstream.)
 
 ## Hard wrap at 100 columns
 
-Every line of a comment is hard-wrapped to at most 100 columns, breaking mid-sentence wherever the wrap falls. Comment prose is broken by *width*—neither per sentence nor per paragraph. (This is a rule about Lean comments only; the parent repository's per-paragraph Markdown convention still governs `.md` files.)
+Every line of a comment is hard-wrapped to at most 100 columns, breaking mid-sentence wherever the wrap falls. Comment prose is broken by *width*—neither per sentence nor per paragraph. (This is a rule about Lean comments only, and says nothing about how the project's `.md` files are broken.)
 
-**A new sentence does not start a new line.** The wrap is the only thing that ends a line: a sentence ending mid-line is followed by the next one on that same line, and a line that stops short of the limit *because* a sentence ended there is the mistake this rule exists to prevent. It is the `.tex` habit—LaTeX in this repository is broken per sentence (`__docs__/rules-latex.md`, repo-root-relative)—leaking into a Lean comment, where it does not apply.
+**A new sentence does not start a new line.** The wrap is the only thing that ends a line: a sentence ending mid-line is followed by the next one on that same line, and a line that stops short of the limit *because* a sentence ended there is the mistake this rule exists to prevent. It is the `.tex` habit—LaTeX source is conventionally broken per sentence—leaking into a Lean comment, where it does not apply.
 
 Broken at the sentence, which is wrong:
 
@@ -52,12 +52,12 @@ The code-span rule this rests on is unchanged: **what sits inside `` `...` `` mu
 
 4. **Nothing above works—`$ ... $` (or `$$ ... $$`) as a fallback**, not as a default. Reach for it when the content is genuinely a displayed formula that neither Lean notation nor English can carry.
 
-When rung 4 is used, the LaTeX inside it **inherits the parent repository's global editing conventions**, not a Lean-specific set:
+When rung 4 is used, the LaTeX inside it follows these conventions:
 
-- Symbol preferences follow the repository-root `__docs__/rules-math-symbols.md`—`\smallsetminus` over `\setminus`, `\subseteq` for inclusion (`\subset` reserved for strict), `\mathfrak{m}` / `\mathfrak{p}`, `\cong` over `\simeq`, `\emptyset`, and the rest.
-- In-math spacing and layout follow the repository-root `__docs__/rules-latex.md`—function application is spaced before its argument (`v_L (\mathfrak{d})`, not `v_L(\mathfrak{d})`), and binary operators and relations are spaced on both sides (`L / K`, not `L/K`).
-- **No preamble, so no template macros.** A comment has no preamble, so the repo's custom macros (the set-symbol shorthands `\ZZ`, `\QQ`, …, the `\Set{...}{...}` builder, `\powerseries`, and friends) are undefined. Use the plain LaTeX each stands for—`\mathbb{Z}`, not `\ZZ`; a written-out `\{ ... \mid ... \}`, not `\Set`—while keeping the macro-independent symbol *preferences* above.
-- **Prose-level `.tex` conventions are overridden** (see *Markdown conventions* below): straight ASCII quotes rather than `` ``...'' ``, and the literal Unicode em dash `—` rather than `---` / `--`.
+- **Symbol preferences:** `\smallsetminus` over `\setminus`, `\subseteq` for inclusion (`\subset` reserved for strict), `\mathfrak{m}` / `\mathfrak{p}` for a maximal / prime ideal, `\cong` over `\simeq`, `\emptyset` over `\varnothing`.
+- **In-math spacing:** function application is spaced before its argument (`v_L (\mathfrak{d})`, not `v_L(\mathfrak{d})`), and binary operators and relations are spaced on both sides (`L / K`, not `L/K`).
+- **No preamble, so no macros.** A comment has no preamble, so a custom macro is undefined and there is nowhere to declare one. Write out the plain LaTeX it would have stood for—`\mathbb{Z}` rather than a `\ZZ` shorthand, `\{ ... \mid ... \}` rather than a set-builder macro—while keeping the symbol *preferences* above.
+- **Prose-level `.tex` habits do not carry over** (see *Markdown conventions* below): straight ASCII quotes rather than `` ``...'' ``, and the literal Unicode em dash `—` rather than `---` / `--`.
 
 ## Markdown conventions inside comment blocks
 
