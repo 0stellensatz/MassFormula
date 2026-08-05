@@ -1,6 +1,6 @@
 # Architecture for source-formalization projects
 
-These rules govern any Lake project that formalizes a piece of mathematical literature unit by unit—a *unit* being the project root itself, a book chapter (`CNN/`), or a paper section (`SNN/`), as fixed by the project's own `CLAUDE.md`. That `CLAUDE.md` also fixes the project's root namespace, its source of truth (the reading note under `notes/math/theme/` and/or the cached PDF), whether it keeps a `CompareMathlib.lean`, and any statement policy layered on top of these rules.
+These rules govern any Lake project that formalizes a piece of mathematical literature unit by unit—a *unit* being the project root itself, a book chapter (`CNN/`), or a paper section (`SNN/`), as fixed by the project's own `CLAUDE.md`. That `CLAUDE.md` also fixes the project's root namespace, its source of truth (the paper, a reading note taken from it, or both), whether it keeps a `CompareMathlib.lean`, and any statement policy layered on top of these rules.
 
 Two companion documents carry the parts not repeated here: `./rules-comparator.md` (the Challenge / Development pair—the specification-versus-proof split that these rules assume throughout) and `./rules-documentation.md` (module and declaration docstrings, and citations).
 
@@ -18,7 +18,7 @@ The project is a self-contained Lake package with its own `lakefile.toml`, `lean
 └── <Project>/           the library source tree
 ```
 
-The `__docs__/` copies and `__check__.py` come from `templates/lean4/` (repo-root-relative) when the project is created, and are the project's own from then on: they are fine-tuned in place to fit it, and a project carries only the rules that apply to it.
+The `__docs__/` copies and `__check__.py` arrive with the template repository the project is generated from, and are the project's own from then on: they are fine-tuned in place to fit it, and a project carries only the rules that apply to it.
 
 Module names mirror file paths under the package root: `<Project>/<Unit>/Foo.lean` is the module `<Project>.<Unit>.Foo`.
 
