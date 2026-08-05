@@ -6,7 +6,7 @@ Two companion documents carry the parts not repeated here: `./rules-comparator.m
 
 ## The project is a Lake package
 
-Each project under `notes/code-lean4/` is a self-contained Lake package with its own `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`, and (gitignored, machine-local) `.lake/`—so it can be worked on, built, and if ever wanted published, on its own. The sources sit in the library directory named after the project:
+The project is a self-contained Lake package with its own `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`, and (gitignored, machine-local) `.lake/`—so it is worked on, built, and published on its own. The sources sit in the library directory named after the project:
 
 ```
 <Project>/
