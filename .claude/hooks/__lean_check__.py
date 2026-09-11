@@ -17,6 +17,9 @@ One entry point serves both hook events, dispatching on `hook_event_name`:
     PostToolUse (Edit|Write)  note that a source file of this project was touched
     Stop                      run `__check__.py` if any was
 
+With `--always`, check every Stop without an edit marker. Codex uses this mode
+because its patch and shell tools do not emit Claude-style file edit payloads.
+
 The project is this file's own---`.claude/hooks/` sits at the package root---so
 the hook travels with the repository it checks and needs nothing from whatever
 tree the repository happens to be checked out under.  An edit under `.lake/` is
@@ -69,10 +72,10 @@ def record(payload: dict) -> int:
     return 0
 
 
-def gate(payload: dict) -> int:
+def gate(payload: dict, *, always: bool = False) -> int:
     """Stop: run the checker if the gate is armed, and block if it fails."""
     marker = state_file(payload.get("session_id", ""))
-    if not marker.is_file():
+    if not always and not marker.is_file():
         return 0
 
     # Read once and clear: a stop that blocks is re-armed by the next turn's
@@ -108,7 +111,10 @@ def main() -> int:
     if event == "PostToolUse":
         return record(payload)
     if event == "Stop":
-        return gate(payload)
+        result = gate(payload, always="--always" in sys.argv[1:])
+        if result == 0 and "--always" in sys.argv[1:]:
+            print("{}")
+        return result
     return 0
 
 

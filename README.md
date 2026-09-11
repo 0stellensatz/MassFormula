@@ -61,3 +61,7 @@ The paper itself is under copyright and is not reproduced here; the docstrings c
 ## License
 
 Apache-2.0. See `LICENSE`.
+
+## Codex setup
+
+See [the Codex integration guide](.codex/README.md) for Lean MCP, completion-hook activation, and configuration regeneration.
